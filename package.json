@@ -9,6 +9,11 @@
     "check-types": "turbo run check-types"
   },
   "devDependencies": {
+    "@types/cors": "^2.8.19",
+    "@types/express": "^5.0.6",
+    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^26.1.2",
+    "cors": "^2.8.6",
     "prettier": "^3.7.4",
     "turbo": "^2.10.6",
     "typescript": "5.9.2"
@@ -25,5 +30,11 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "express": "^5.2.1",
+    "jsonwebtoken": "^9.0.3",
+    "kafkajs": "^2.2.4",
+    "zod": "^4.4.3"
+  }
 }

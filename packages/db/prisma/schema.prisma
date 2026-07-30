@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+datasource db {
+  provider = "postgresql"
+  
+}
+
+model User {
+  id        Int   @id @default(autoincrement())
+  name      String
+  email     String @unique
+  password  String
+}
+
+model Zap{
+  id          String @id @default(uuid())
+  trigger     Trigger?
+  Action      Action[]
+  Runs        zapRun[]
+}
+
+model Trigger {
+  id      String @id @default(uuid())
+  triggerId   String 
+  zapId       String @unique
+  type    AvailableTrigger @relation(fields: [triggerId], references: [id])
+  zap     Zap @relation(fields: [zapId], references: [id])
+}
+
+model AvailableTrigger{
+ id       String @id @default(uuid()) 
+ name     String
+ trigger  Trigger[]
+}
+
+model Action{
+  id String @id @default(uuid())
+  ZapId String 
+  ActionName String
+  type AvailableAction @relation(fields: [ActionName], references: [id])
+  zap Zap @relation(fields:[ZapId], references: [id])
+
+}
+model AvailableAction{
+  id String @id @default(uuid())
+  name String
+  action Action[]
+}
+
+model zapRun{
+  id String @id @default(uuid())
+  zapId String
+  status String?
+  metadata Json?
+  Task Task[]
+  zap Zap @relation(fields: [zapId], references: [id])
+  zaprunoutbox zapRunoutbox?
+}
+
+model zapRunoutbox{
+  id String @id @default(uuid())
+  zapRunId String @unique
+  metadata Json?
+  zaprun zapRun@relation(fields: [zapRunId], references: [id])
+}
+
+
+model Task{
+  id String @id @default(uuid())
+  runId String
+  status String
+  zapRun zapRun @relation(fields: [runId], references: [id])
+}
