@@ -1,12 +1,12 @@
 
 
 import { Router } from "express";
-import { Prisma } from "../lib/prisma";
+import { prisma } from "../db/index.js";
 
 const router = Router();
 
 router.get("/available", async (req, res) => {
-    const availableActions = await Prisma.availableAction.findMany({});
+    const availableActions = await prisma.availableAction.findMany({});
     res.json({
         availableActions
     })

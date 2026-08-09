@@ -1,9 +1,10 @@
+import "dotenv/config";
 import express from "express";
-import { userRouter } from "./routes/user";
-import { zapRouter } from "./routes/zap";
+import { userRouter } from "./routes/user.js";
+import { zapRouter } from "./routes/zap.js";
 import cors from "cors";
-import { triggerRouter } from "./routes/trigger";
-import { actionRouter } from "./routes/Action";
+import { triggerRouter } from "./routes/trigger.js";
+import { actionRouter } from "./routes/Action.js";
 
 
 const app = express();

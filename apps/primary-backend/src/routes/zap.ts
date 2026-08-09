@@ -1,46 +1,39 @@
 import {Router} from "express";
-import { SignupSchema, ZapCreateSchema } from "../types";
-import { Prisma } from "../lib/prisma";
-import { authMiddleware } from "../middleware";
+import { ZapCreateSchema } from "../types/index.js";
+import { prisma } from "../db/index.js";
+import { authMiddleware } from "../middleware.js";
 
 const router = Router();
 
-router.post("/", async (req, res) => {
+router.post("/", authMiddleware, async (req, res) => {
     //@ts-ignore
-    const id: string =req.id;
+    const id: number =req.id;
     const body = req.body;
     const parsedData= ZapCreateSchema.safeParse(body);
 
-        if (!parsedData.success){   
+        if (!parsedData.success){
             return res.status(400).json({
                 message:"invalid input"
             })
         }
-        const zapId = await Prisma.$transaction(async (tx : any ) =>{
+        const zapId = await prisma.$transaction(async (tx) =>{
             const zap = await tx.zap.create({
             data:{
-                userId: parseInt(id),
-                triggerid: "",
-                Action:{
+                userId: id,
+                actions:{
                     create: parsedData.data.action.map((x,index)=> ({
                         ActionName: x.AvailableActionId,
-                        sortingOrder: index
+                        sortingOrder: index,
+                        metadata: x.actionMetadata
                     }))
                 }
             }
         })
-        const trigger =await tx.trigger.create({
+        await tx.trigger.create({
             data:{
-                 trigger: parsedData.data.AvailableTriggerId,
-                 zapId: zap.id
-            }
-        })
-        await Prisma.zap.update({
-            where:{
-                id: zap.id
-            },
-            data:{
-                trigger: trigger.id
+                 triggerId: parsedData.data.AvailableTriggerId,
+                 zapId: zap.id,
+                 metadata: parsedData.data.triggerMetadata
             }
         })
          return zap.id;
@@ -53,12 +46,12 @@ router.post("/", async (req, res) => {
 router.get("/", authMiddleware ,async (req, res) => {
     //@ts-ignore
     const id = req.id;
-    const zaps = await Prisma.zap.findMany({
+    const zaps = await prisma.zap.findMany({
         where:{
             userId: id
         },
         include:{
-            Action: {
+            actions: {
                 include:{
                     type: true
                 }
@@ -77,18 +70,18 @@ router.get("/", authMiddleware ,async (req, res) => {
 
 })
 router.get("/zapId", authMiddleware ,async (req, res) => {
-    
+
     //@ts-ignore
     const id = req.id;
     const zapId = req.query.zapId as string;
 
-    const zap = await Prisma.zap.findFirst({
+    const zap = await prisma.zap.findFirst({
         where:{
             userId: id,
             id: zapId
         },
         include:{
-            Action: {
+            actions: {
                 include:{
                     type: true
                 }

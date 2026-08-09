@@ -1,11 +1,11 @@
 
 import { Router } from "express";
-import { Prisma } from "../lib/prisma";
+import { prisma } from "../db/index.js";
 
 const router = Router();
 
 router.get("/available", async (req, res) => {
-    const availableTriggers = await Prisma.availableTrigger.findMany({});
+    const availableTriggers = await prisma.availableTrigger.findMany({});
     res.json({
         availableTriggers
     })

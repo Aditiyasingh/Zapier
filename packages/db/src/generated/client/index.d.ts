@@ -1618,16 +1618,47 @@ export namespace Prisma {
 
 
   /**
+   * Count Type UserCountOutputType
+   */
+
+  export type UserCountOutputType = {
+    zaps: number
+  }
+
+  export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    zaps?: boolean | UserCountOutputTypeCountZapsArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the UserCountOutputType
+     */
+    select?: UserCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountZapsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: ZapWhereInput
+  }
+
+
+  /**
    * Count Type ZapCountOutputType
    */
 
   export type ZapCountOutputType = {
-    Action: number
+    actions: number
     Runs: number
   }
 
   export type ZapCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
-    Action?: boolean | ZapCountOutputTypeCountActionArgs
+    actions?: boolean | ZapCountOutputTypeCountActionsArgs
     Runs?: boolean | ZapCountOutputTypeCountRunsArgs
   }
 
@@ -1645,7 +1676,7 @@ export namespace Prisma {
   /**
    * ZapCountOutputType without action
    */
-  export type ZapCountOutputTypeCountActionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type ZapCountOutputTypeCountActionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: ActionWhereInput
   }
 
@@ -1685,6 +1716,37 @@ export namespace Prisma {
    */
   export type AvailableTriggerCountOutputTypeCountTriggerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: TriggerWhereInput
+  }
+
+
+  /**
+   * Count Type ActionCountOutputType
+   */
+
+  export type ActionCountOutputType = {
+    Task: number
+  }
+
+  export type ActionCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    Task?: boolean | ActionCountOutputTypeCountTaskArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ActionCountOutputType without action
+   */
+  export type ActionCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ActionCountOutputType
+     */
+    select?: ActionCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ActionCountOutputType without action
+   */
+  export type ActionCountOutputTypeCountTaskArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: TaskWhereInput
   }
 
 
@@ -1944,6 +2006,8 @@ export namespace Prisma {
     name?: boolean
     email?: boolean
     password?: boolean
+    zaps?: boolean | User$zapsArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1968,10 +2032,18 @@ export namespace Prisma {
   }
 
   export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "password", ExtArgs["result"]["user"]>
+  export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    zaps?: boolean | User$zapsArgs<ExtArgs>
+    _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
+  }
+  export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type UserIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
-    objects: {}
+    objects: {
+      zaps: Prisma.$ZapPayload<ExtArgs>[]
+    }
     scalars: $Extensions.GetPayloadResult<{
       id: number
       name: string
@@ -2371,6 +2443,7 @@ export namespace Prisma {
    */
   export interface Prisma__UserClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    zaps<T extends User$zapsArgs<ExtArgs> = {}>(args?: Subset<T, User$zapsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ZapPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2421,6 +2494,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
@@ -2439,6 +2516,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where: UserWhereUniqueInput
@@ -2456,6 +2537,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * Filter, which User to fetch.
      */
@@ -2505,6 +2590,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter, which User to fetch.
      */
     where?: UserWhereInput
@@ -2552,6 +2641,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * Filter, which Users to fetch.
      */
@@ -2601,6 +2694,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * The data needed to create a User.
      */
     data: XOR<UserCreateInput, UserUncheckedCreateInput>
@@ -2648,6 +2745,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
     /**
      * The data needed to update a User.
      */
@@ -2715,6 +2816,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * The filter to search for the User to update in case it exists.
      */
     where: UserWhereUniqueInput
@@ -2741,6 +2846,10 @@ export namespace Prisma {
      */
     omit?: UserOmit<ExtArgs> | null
     /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
+    /**
      * Filter which User to delete.
      */
     where: UserWhereUniqueInput
@@ -2761,6 +2870,30 @@ export namespace Prisma {
   }
 
   /**
+   * User.zaps
+   */
+  export type User$zapsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Zap
+     */
+    select?: ZapSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Zap
+     */
+    omit?: ZapOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ZapInclude<ExtArgs> | null
+    where?: ZapWhereInput
+    orderBy?: ZapOrderByWithRelationInput | ZapOrderByWithRelationInput[]
+    cursor?: ZapWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: ZapScalarFieldEnum | ZapScalarFieldEnum[]
+  }
+
+  /**
    * User without action
    */
   export type UserDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2772,6 +2905,10 @@ export namespace Prisma {
      * Omit specific fields from the User
      */
     omit?: UserOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: UserInclude<ExtArgs> | null
   }
 
 
@@ -2781,34 +2918,58 @@ export namespace Prisma {
 
   export type AggregateZap = {
     _count: ZapCountAggregateOutputType | null
+    _avg: ZapAvgAggregateOutputType | null
+    _sum: ZapSumAggregateOutputType | null
     _min: ZapMinAggregateOutputType | null
     _max: ZapMaxAggregateOutputType | null
   }
 
+  export type ZapAvgAggregateOutputType = {
+    userId: number | null
+  }
+
+  export type ZapSumAggregateOutputType = {
+    userId: number | null
+  }
+
   export type ZapMinAggregateOutputType = {
     id: string | null
+    userId: number | null
   }
 
   export type ZapMaxAggregateOutputType = {
     id: string | null
+    userId: number | null
   }
 
   export type ZapCountAggregateOutputType = {
     id: number
+    userId: number
     _all: number
   }
 
 
+  export type ZapAvgAggregateInputType = {
+    userId?: true
+  }
+
+  export type ZapSumAggregateInputType = {
+    userId?: true
+  }
+
   export type ZapMinAggregateInputType = {
     id?: true
+    userId?: true
   }
 
   export type ZapMaxAggregateInputType = {
     id?: true
+    userId?: true
   }
 
   export type ZapCountAggregateInputType = {
     id?: true
+    userId?: true
     _all?: true
   }
 
@@ -2850,6 +3011,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ZapAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ZapSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ZapMinAggregateInputType
@@ -2880,13 +3053,18 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ZapCountAggregateInputType | true
+    _avg?: ZapAvgAggregateInputType
+    _sum?: ZapSumAggregateInputType
     _min?: ZapMinAggregateInputType
     _max?: ZapMaxAggregateInputType
   }
 
   export type ZapGroupByOutputType = {
     id: string
+    userId: number
     _count: ZapCountAggregateOutputType | null
+    _avg: ZapAvgAggregateOutputType | null
+    _sum: ZapSumAggregateOutputType | null
     _min: ZapMinAggregateOutputType | null
     _max: ZapMaxAggregateOutputType | null
   }
@@ -2907,43 +3085,57 @@ export namespace Prisma {
 
   export type ZapSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
     trigger?: boolean | Zap$triggerArgs<ExtArgs>
-    Action?: boolean | Zap$ActionArgs<ExtArgs>
+    actions?: boolean | Zap$actionsArgs<ExtArgs>
     Runs?: boolean | Zap$RunsArgs<ExtArgs>
     _count?: boolean | ZapCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["zap"]>
 
   export type ZapSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["zap"]>
 
   export type ZapSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    userId?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["zap"]>
 
   export type ZapSelectScalar = {
     id?: boolean
+    userId?: boolean
   }
 
-  export type ZapOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id", ExtArgs["result"]["zap"]>
+  export type ZapOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId", ExtArgs["result"]["zap"]>
   export type ZapInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
     trigger?: boolean | Zap$triggerArgs<ExtArgs>
-    Action?: boolean | Zap$ActionArgs<ExtArgs>
+    actions?: boolean | Zap$actionsArgs<ExtArgs>
     Runs?: boolean | Zap$RunsArgs<ExtArgs>
     _count?: boolean | ZapCountOutputTypeDefaultArgs<ExtArgs>
   }
-  export type ZapIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
-  export type ZapIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
+  export type ZapIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type ZapIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
 
   export type $ZapPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Zap"
     objects: {
+      user: Prisma.$UserPayload<ExtArgs>
       trigger: Prisma.$TriggerPayload<ExtArgs> | null
-      Action: Prisma.$ActionPayload<ExtArgs>[]
+      actions: Prisma.$ActionPayload<ExtArgs>[]
       Runs: Prisma.$zapRunPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      userId: number
     }, ExtArgs["result"]["zap"]>
     composites: {}
   }
@@ -3338,8 +3530,9 @@ export namespace Prisma {
    */
   export interface Prisma__ZapClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     trigger<T extends Zap$triggerArgs<ExtArgs> = {}>(args?: Subset<T, Zap$triggerArgs<ExtArgs>>): Prisma__TriggerClient<$Result.GetResult<Prisma.$TriggerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
-    Action<T extends Zap$ActionArgs<ExtArgs> = {}>(args?: Subset<T, Zap$ActionArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    actions<T extends Zap$actionsArgs<ExtArgs> = {}>(args?: Subset<T, Zap$actionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$ActionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     Runs<T extends Zap$RunsArgs<ExtArgs> = {}>(args?: Subset<T, Zap$RunsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$zapRunPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3371,6 +3564,7 @@ export namespace Prisma {
    */
   interface ZapFieldRefs {
     readonly id: FieldRef<"Zap", 'String'>
+    readonly userId: FieldRef<"Zap", 'Int'>
   }
     
 
@@ -3594,7 +3788,7 @@ export namespace Prisma {
     /**
      * The data needed to create a Zap.
      */
-    data?: XOR<ZapCreateInput, ZapUncheckedCreateInput>
+    data: XOR<ZapCreateInput, ZapUncheckedCreateInput>
   }
 
   /**
@@ -3625,6 +3819,10 @@ export namespace Prisma {
      */
     data: ZapCreateManyInput | ZapCreateManyInput[]
     skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ZapIncludeCreateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -3695,6 +3893,10 @@ export namespace Prisma {
      * Limit how many Zaps to update.
      */
     limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ZapIncludeUpdateManyAndReturn<ExtArgs> | null
   }
 
   /**
@@ -3783,9 +3985,9 @@ export namespace Prisma {
   }
 
   /**
-   * Zap.Action
+   * Zap.actions
    */
-  export type Zap$ActionArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+  export type Zap$actionsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Action
      */
@@ -3875,6 +4077,7 @@ export namespace Prisma {
     id: number
     triggerId: number
     zapId: number
+    metadata: number
     _all: number
   }
 
@@ -3895,6 +4098,7 @@ export namespace Prisma {
     id?: true
     triggerId?: true
     zapId?: true
+    metadata?: true
     _all?: true
   }
 
@@ -3974,6 +4178,7 @@ export namespace Prisma {
     id: string
     triggerId: string
     zapId: string
+    metadata: JsonValue | null
     _count: TriggerCountAggregateOutputType | null
     _min: TriggerMinAggregateOutputType | null
     _max: TriggerMaxAggregateOutputType | null
@@ -3997,6 +4202,7 @@ export namespace Prisma {
     id?: boolean
     triggerId?: boolean
     zapId?: boolean
+    metadata?: boolean
     type?: boolean | AvailableTriggerDefaultArgs<ExtArgs>
     zap?: boolean | ZapDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["trigger"]>
@@ -4005,6 +4211,7 @@ export namespace Prisma {
     id?: boolean
     triggerId?: boolean
     zapId?: boolean
+    metadata?: boolean
     type?: boolean | AvailableTriggerDefaultArgs<ExtArgs>
     zap?: boolean | ZapDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["trigger"]>
@@ -4013,6 +4220,7 @@ export namespace Prisma {
     id?: boolean
     triggerId?: boolean
     zapId?: boolean
+    metadata?: boolean
     type?: boolean | AvailableTriggerDefaultArgs<ExtArgs>
     zap?: boolean | ZapDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["trigger"]>
@@ -4021,9 +4229,10 @@ export namespace Prisma {
     id?: boolean
     triggerId?: boolean
     zapId?: boolean
+    metadata?: boolean
   }
 
-  export type TriggerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "triggerId" | "zapId", ExtArgs["result"]["trigger"]>
+  export type TriggerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "triggerId" | "zapId" | "metadata", ExtArgs["result"]["trigger"]>
   export type TriggerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     type?: boolean | AvailableTriggerDefaultArgs<ExtArgs>
     zap?: boolean | ZapDefaultArgs<ExtArgs>
@@ -4047,6 +4256,7 @@ export namespace Prisma {
       id: string
       triggerId: string
       zapId: string
+      metadata: Prisma.JsonValue | null
     }, ExtArgs["result"]["trigger"]>
     composites: {}
   }
@@ -4475,6 +4685,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Trigger", 'String'>
     readonly triggerId: FieldRef<"Trigger", 'String'>
     readonly zapId: FieldRef<"Trigger", 'String'>
+    readonly metadata: FieldRef<"Trigger", 'Json'>
   }
     
 
@@ -5936,46 +6147,72 @@ export namespace Prisma {
 
   export type AggregateAction = {
     _count: ActionCountAggregateOutputType | null
+    _avg: ActionAvgAggregateOutputType | null
+    _sum: ActionSumAggregateOutputType | null
     _min: ActionMinAggregateOutputType | null
     _max: ActionMaxAggregateOutputType | null
+  }
+
+  export type ActionAvgAggregateOutputType = {
+    sortingOrder: number | null
+  }
+
+  export type ActionSumAggregateOutputType = {
+    sortingOrder: number | null
   }
 
   export type ActionMinAggregateOutputType = {
     id: string | null
     ZapId: string | null
     ActionName: string | null
+    sortingOrder: number | null
   }
 
   export type ActionMaxAggregateOutputType = {
     id: string | null
     ZapId: string | null
     ActionName: string | null
+    sortingOrder: number | null
   }
 
   export type ActionCountAggregateOutputType = {
     id: number
     ZapId: number
     ActionName: number
+    sortingOrder: number
+    metadata: number
     _all: number
   }
 
+
+  export type ActionAvgAggregateInputType = {
+    sortingOrder?: true
+  }
+
+  export type ActionSumAggregateInputType = {
+    sortingOrder?: true
+  }
 
   export type ActionMinAggregateInputType = {
     id?: true
     ZapId?: true
     ActionName?: true
+    sortingOrder?: true
   }
 
   export type ActionMaxAggregateInputType = {
     id?: true
     ZapId?: true
     ActionName?: true
+    sortingOrder?: true
   }
 
   export type ActionCountAggregateInputType = {
     id?: true
     ZapId?: true
     ActionName?: true
+    sortingOrder?: true
+    metadata?: true
     _all?: true
   }
 
@@ -6017,6 +6254,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: ActionAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: ActionSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: ActionMinAggregateInputType
@@ -6047,6 +6296,8 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: ActionCountAggregateInputType | true
+    _avg?: ActionAvgAggregateInputType
+    _sum?: ActionSumAggregateInputType
     _min?: ActionMinAggregateInputType
     _max?: ActionMaxAggregateInputType
   }
@@ -6055,7 +6306,11 @@ export namespace Prisma {
     id: string
     ZapId: string
     ActionName: string
+    sortingOrder: number
+    metadata: JsonValue | null
     _count: ActionCountAggregateOutputType | null
+    _avg: ActionAvgAggregateOutputType | null
+    _sum: ActionSumAggregateOutputType | null
     _min: ActionMinAggregateOutputType | null
     _max: ActionMaxAggregateOutputType | null
   }
@@ -6078,14 +6333,20 @@ export namespace Prisma {
     id?: boolean
     ZapId?: boolean
     ActionName?: boolean
+    sortingOrder?: boolean
+    metadata?: boolean
     type?: boolean | AvailableActionDefaultArgs<ExtArgs>
     zap?: boolean | ZapDefaultArgs<ExtArgs>
+    Task?: boolean | Action$TaskArgs<ExtArgs>
+    _count?: boolean | ActionCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["action"]>
 
   export type ActionSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     ZapId?: boolean
     ActionName?: boolean
+    sortingOrder?: boolean
+    metadata?: boolean
     type?: boolean | AvailableActionDefaultArgs<ExtArgs>
     zap?: boolean | ZapDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["action"]>
@@ -6094,6 +6355,8 @@ export namespace Prisma {
     id?: boolean
     ZapId?: boolean
     ActionName?: boolean
+    sortingOrder?: boolean
+    metadata?: boolean
     type?: boolean | AvailableActionDefaultArgs<ExtArgs>
     zap?: boolean | ZapDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["action"]>
@@ -6102,12 +6365,16 @@ export namespace Prisma {
     id?: boolean
     ZapId?: boolean
     ActionName?: boolean
+    sortingOrder?: boolean
+    metadata?: boolean
   }
 
-  export type ActionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ZapId" | "ActionName", ExtArgs["result"]["action"]>
+  export type ActionOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "ZapId" | "ActionName" | "sortingOrder" | "metadata", ExtArgs["result"]["action"]>
   export type ActionInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     type?: boolean | AvailableActionDefaultArgs<ExtArgs>
     zap?: boolean | ZapDefaultArgs<ExtArgs>
+    Task?: boolean | Action$TaskArgs<ExtArgs>
+    _count?: boolean | ActionCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ActionIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     type?: boolean | AvailableActionDefaultArgs<ExtArgs>
@@ -6123,11 +6390,14 @@ export namespace Prisma {
     objects: {
       type: Prisma.$AvailableActionPayload<ExtArgs>
       zap: Prisma.$ZapPayload<ExtArgs>
+      Task: Prisma.$TaskPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       ZapId: string
       ActionName: string
+      sortingOrder: number
+      metadata: Prisma.JsonValue | null
     }, ExtArgs["result"]["action"]>
     composites: {}
   }
@@ -6524,6 +6794,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     type<T extends AvailableActionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, AvailableActionDefaultArgs<ExtArgs>>): Prisma__AvailableActionClient<$Result.GetResult<Prisma.$AvailableActionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     zap<T extends ZapDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ZapDefaultArgs<ExtArgs>>): Prisma__ZapClient<$Result.GetResult<Prisma.$ZapPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    Task<T extends Action$TaskArgs<ExtArgs> = {}>(args?: Subset<T, Action$TaskArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$TaskPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -6556,6 +6827,8 @@ export namespace Prisma {
     readonly id: FieldRef<"Action", 'String'>
     readonly ZapId: FieldRef<"Action", 'String'>
     readonly ActionName: FieldRef<"Action", 'String'>
+    readonly sortingOrder: FieldRef<"Action", 'Int'>
+    readonly metadata: FieldRef<"Action", 'Json'>
   }
     
 
@@ -6954,6 +7227,30 @@ export namespace Prisma {
      * Limit how many Actions to delete.
      */
     limit?: number
+  }
+
+  /**
+   * Action.Task
+   */
+  export type Action$TaskArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Task
+     */
+    select?: TaskSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Task
+     */
+    omit?: TaskOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: TaskInclude<ExtArgs> | null
+    where?: TaskWhereInput
+    orderBy?: TaskOrderByWithRelationInput | TaskOrderByWithRelationInput[]
+    cursor?: TaskWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: TaskScalarFieldEnum | TaskScalarFieldEnum[]
   }
 
   /**
@@ -10156,19 +10453,25 @@ export namespace Prisma {
   export type TaskMinAggregateOutputType = {
     id: string | null
     runId: string | null
+    actionId: string | null
     status: string | null
+    error: string | null
   }
 
   export type TaskMaxAggregateOutputType = {
     id: string | null
     runId: string | null
+    actionId: string | null
     status: string | null
+    error: string | null
   }
 
   export type TaskCountAggregateOutputType = {
     id: number
     runId: number
+    actionId: number
     status: number
+    error: number
     _all: number
   }
 
@@ -10176,19 +10479,25 @@ export namespace Prisma {
   export type TaskMinAggregateInputType = {
     id?: true
     runId?: true
+    actionId?: true
     status?: true
+    error?: true
   }
 
   export type TaskMaxAggregateInputType = {
     id?: true
     runId?: true
+    actionId?: true
     status?: true
+    error?: true
   }
 
   export type TaskCountAggregateInputType = {
     id?: true
     runId?: true
+    actionId?: true
     status?: true
+    error?: true
     _all?: true
   }
 
@@ -10267,7 +10576,9 @@ export namespace Prisma {
   export type TaskGroupByOutputType = {
     id: string
     runId: string
+    actionId: string
     status: string
+    error: string | null
     _count: TaskCountAggregateOutputType | null
     _min: TaskMinAggregateOutputType | null
     _max: TaskMaxAggregateOutputType | null
@@ -10290,50 +10601,67 @@ export namespace Prisma {
   export type TaskSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     runId?: boolean
+    actionId?: boolean
     status?: boolean
+    error?: boolean
     zapRun?: boolean | zapRunDefaultArgs<ExtArgs>
+    action?: boolean | ActionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     runId?: boolean
+    actionId?: boolean
     status?: boolean
+    error?: boolean
     zapRun?: boolean | zapRunDefaultArgs<ExtArgs>
+    action?: boolean | ActionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     runId?: boolean
+    actionId?: boolean
     status?: boolean
+    error?: boolean
     zapRun?: boolean | zapRunDefaultArgs<ExtArgs>
+    action?: boolean | ActionDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["task"]>
 
   export type TaskSelectScalar = {
     id?: boolean
     runId?: boolean
+    actionId?: boolean
     status?: boolean
+    error?: boolean
   }
 
-  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "runId" | "status", ExtArgs["result"]["task"]>
+  export type TaskOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "runId" | "actionId" | "status" | "error", ExtArgs["result"]["task"]>
   export type TaskInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     zapRun?: boolean | zapRunDefaultArgs<ExtArgs>
+    action?: boolean | ActionDefaultArgs<ExtArgs>
   }
   export type TaskIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     zapRun?: boolean | zapRunDefaultArgs<ExtArgs>
+    action?: boolean | ActionDefaultArgs<ExtArgs>
   }
   export type TaskIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     zapRun?: boolean | zapRunDefaultArgs<ExtArgs>
+    action?: boolean | ActionDefaultArgs<ExtArgs>
   }
 
   export type $TaskPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Task"
     objects: {
       zapRun: Prisma.$zapRunPayload<ExtArgs>
+      action: Prisma.$ActionPayload<ExtArgs>
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       runId: string
+      actionId: string
       status: string
+      error: string | null
     }, ExtArgs["result"]["task"]>
     composites: {}
   }
@@ -10729,6 +11057,7 @@ export namespace Prisma {
   export interface Prisma__TaskClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     zapRun<T extends zapRunDefaultArgs<ExtArgs> = {}>(args?: Subset<T, zapRunDefaultArgs<ExtArgs>>): Prisma__zapRunClient<$Result.GetResult<Prisma.$zapRunPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    action<T extends ActionDefaultArgs<ExtArgs> = {}>(args?: Subset<T, ActionDefaultArgs<ExtArgs>>): Prisma__ActionClient<$Result.GetResult<Prisma.$ActionPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -10760,7 +11089,9 @@ export namespace Prisma {
   interface TaskFieldRefs {
     readonly id: FieldRef<"Task", 'String'>
     readonly runId: FieldRef<"Task", 'String'>
+    readonly actionId: FieldRef<"Task", 'String'>
     readonly status: FieldRef<"Task", 'String'>
+    readonly error: FieldRef<"Task", 'String'>
   }
     
 
@@ -11205,7 +11536,8 @@ export namespace Prisma {
 
 
   export const ZapScalarFieldEnum: {
-    id: 'id'
+    id: 'id',
+    userId: 'userId'
   };
 
   export type ZapScalarFieldEnum = (typeof ZapScalarFieldEnum)[keyof typeof ZapScalarFieldEnum]
@@ -11214,7 +11546,8 @@ export namespace Prisma {
   export const TriggerScalarFieldEnum: {
     id: 'id',
     triggerId: 'triggerId',
-    zapId: 'zapId'
+    zapId: 'zapId',
+    metadata: 'metadata'
   };
 
   export type TriggerScalarFieldEnum = (typeof TriggerScalarFieldEnum)[keyof typeof TriggerScalarFieldEnum]
@@ -11231,7 +11564,9 @@ export namespace Prisma {
   export const ActionScalarFieldEnum: {
     id: 'id',
     ZapId: 'ZapId',
-    ActionName: 'ActionName'
+    ActionName: 'ActionName',
+    sortingOrder: 'sortingOrder',
+    metadata: 'metadata'
   };
 
   export type ActionScalarFieldEnum = (typeof ActionScalarFieldEnum)[keyof typeof ActionScalarFieldEnum]
@@ -11267,7 +11602,9 @@ export namespace Prisma {
   export const TaskScalarFieldEnum: {
     id: 'id',
     runId: 'runId',
-    status: 'status'
+    actionId: 'actionId',
+    status: 'status',
+    error: 'error'
   };
 
   export type TaskScalarFieldEnum = (typeof TaskScalarFieldEnum)[keyof typeof TaskScalarFieldEnum]
@@ -11386,6 +11723,7 @@ export namespace Prisma {
     name?: StringFilter<"User"> | string
     email?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
+    zaps?: ZapListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -11393,6 +11731,7 @@ export namespace Prisma {
     name?: SortOrder
     email?: SortOrder
     password?: SortOrder
+    zaps?: ZapOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -11403,6 +11742,7 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
     password?: StringFilter<"User"> | string
+    zaps?: ZapListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -11432,15 +11772,19 @@ export namespace Prisma {
     OR?: ZapWhereInput[]
     NOT?: ZapWhereInput | ZapWhereInput[]
     id?: StringFilter<"Zap"> | string
+    userId?: IntFilter<"Zap"> | number
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     trigger?: XOR<TriggerNullableScalarRelationFilter, TriggerWhereInput> | null
-    Action?: ActionListRelationFilter
+    actions?: ActionListRelationFilter
     Runs?: ZapRunListRelationFilter
   }
 
   export type ZapOrderByWithRelationInput = {
     id?: SortOrder
+    userId?: SortOrder
+    user?: UserOrderByWithRelationInput
     trigger?: TriggerOrderByWithRelationInput
-    Action?: ActionOrderByRelationAggregateInput
+    actions?: ActionOrderByRelationAggregateInput
     Runs?: zapRunOrderByRelationAggregateInput
   }
 
@@ -11449,16 +11793,21 @@ export namespace Prisma {
     AND?: ZapWhereInput | ZapWhereInput[]
     OR?: ZapWhereInput[]
     NOT?: ZapWhereInput | ZapWhereInput[]
+    userId?: IntFilter<"Zap"> | number
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
     trigger?: XOR<TriggerNullableScalarRelationFilter, TriggerWhereInput> | null
-    Action?: ActionListRelationFilter
+    actions?: ActionListRelationFilter
     Runs?: ZapRunListRelationFilter
   }, "id">
 
   export type ZapOrderByWithAggregationInput = {
     id?: SortOrder
+    userId?: SortOrder
     _count?: ZapCountOrderByAggregateInput
+    _avg?: ZapAvgOrderByAggregateInput
     _max?: ZapMaxOrderByAggregateInput
     _min?: ZapMinOrderByAggregateInput
+    _sum?: ZapSumOrderByAggregateInput
   }
 
   export type ZapScalarWhereWithAggregatesInput = {
@@ -11466,6 +11815,7 @@ export namespace Prisma {
     OR?: ZapScalarWhereWithAggregatesInput[]
     NOT?: ZapScalarWhereWithAggregatesInput | ZapScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Zap"> | string
+    userId?: IntWithAggregatesFilter<"Zap"> | number
   }
 
   export type TriggerWhereInput = {
@@ -11475,6 +11825,7 @@ export namespace Prisma {
     id?: StringFilter<"Trigger"> | string
     triggerId?: StringFilter<"Trigger"> | string
     zapId?: StringFilter<"Trigger"> | string
+    metadata?: JsonNullableFilter<"Trigger">
     type?: XOR<AvailableTriggerScalarRelationFilter, AvailableTriggerWhereInput>
     zap?: XOR<ZapScalarRelationFilter, ZapWhereInput>
   }
@@ -11483,6 +11834,7 @@ export namespace Prisma {
     id?: SortOrder
     triggerId?: SortOrder
     zapId?: SortOrder
+    metadata?: SortOrderInput | SortOrder
     type?: AvailableTriggerOrderByWithRelationInput
     zap?: ZapOrderByWithRelationInput
   }
@@ -11494,6 +11846,7 @@ export namespace Prisma {
     OR?: TriggerWhereInput[]
     NOT?: TriggerWhereInput | TriggerWhereInput[]
     triggerId?: StringFilter<"Trigger"> | string
+    metadata?: JsonNullableFilter<"Trigger">
     type?: XOR<AvailableTriggerScalarRelationFilter, AvailableTriggerWhereInput>
     zap?: XOR<ZapScalarRelationFilter, ZapWhereInput>
   }, "id" | "zapId">
@@ -11502,6 +11855,7 @@ export namespace Prisma {
     id?: SortOrder
     triggerId?: SortOrder
     zapId?: SortOrder
+    metadata?: SortOrderInput | SortOrder
     _count?: TriggerCountOrderByAggregateInput
     _max?: TriggerMaxOrderByAggregateInput
     _min?: TriggerMinOrderByAggregateInput
@@ -11514,6 +11868,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Trigger"> | string
     triggerId?: StringWithAggregatesFilter<"Trigger"> | string
     zapId?: StringWithAggregatesFilter<"Trigger"> | string
+    metadata?: JsonNullableWithAggregatesFilter<"Trigger">
   }
 
   export type AvailableTriggerWhereInput = {
@@ -11533,12 +11888,12 @@ export namespace Prisma {
 
   export type AvailableTriggerWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    name?: string
     AND?: AvailableTriggerWhereInput | AvailableTriggerWhereInput[]
     OR?: AvailableTriggerWhereInput[]
     NOT?: AvailableTriggerWhereInput | AvailableTriggerWhereInput[]
-    name?: StringFilter<"AvailableTrigger"> | string
     trigger?: TriggerListRelationFilter
-  }, "id">
+  }, "id" | "name">
 
   export type AvailableTriggerOrderByWithAggregationInput = {
     id?: SortOrder
@@ -11563,16 +11918,22 @@ export namespace Prisma {
     id?: StringFilter<"Action"> | string
     ZapId?: StringFilter<"Action"> | string
     ActionName?: StringFilter<"Action"> | string
+    sortingOrder?: IntFilter<"Action"> | number
+    metadata?: JsonNullableFilter<"Action">
     type?: XOR<AvailableActionScalarRelationFilter, AvailableActionWhereInput>
     zap?: XOR<ZapScalarRelationFilter, ZapWhereInput>
+    Task?: TaskListRelationFilter
   }
 
   export type ActionOrderByWithRelationInput = {
     id?: SortOrder
     ZapId?: SortOrder
     ActionName?: SortOrder
+    sortingOrder?: SortOrder
+    metadata?: SortOrderInput | SortOrder
     type?: AvailableActionOrderByWithRelationInput
     zap?: ZapOrderByWithRelationInput
+    Task?: TaskOrderByRelationAggregateInput
   }
 
   export type ActionWhereUniqueInput = Prisma.AtLeast<{
@@ -11582,17 +11943,24 @@ export namespace Prisma {
     NOT?: ActionWhereInput | ActionWhereInput[]
     ZapId?: StringFilter<"Action"> | string
     ActionName?: StringFilter<"Action"> | string
+    sortingOrder?: IntFilter<"Action"> | number
+    metadata?: JsonNullableFilter<"Action">
     type?: XOR<AvailableActionScalarRelationFilter, AvailableActionWhereInput>
     zap?: XOR<ZapScalarRelationFilter, ZapWhereInput>
+    Task?: TaskListRelationFilter
   }, "id">
 
   export type ActionOrderByWithAggregationInput = {
     id?: SortOrder
     ZapId?: SortOrder
     ActionName?: SortOrder
+    sortingOrder?: SortOrder
+    metadata?: SortOrderInput | SortOrder
     _count?: ActionCountOrderByAggregateInput
+    _avg?: ActionAvgOrderByAggregateInput
     _max?: ActionMaxOrderByAggregateInput
     _min?: ActionMinOrderByAggregateInput
+    _sum?: ActionSumOrderByAggregateInput
   }
 
   export type ActionScalarWhereWithAggregatesInput = {
@@ -11602,6 +11970,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Action"> | string
     ZapId?: StringWithAggregatesFilter<"Action"> | string
     ActionName?: StringWithAggregatesFilter<"Action"> | string
+    sortingOrder?: IntWithAggregatesFilter<"Action"> | number
+    metadata?: JsonNullableWithAggregatesFilter<"Action">
   }
 
   export type AvailableActionWhereInput = {
@@ -11621,12 +11991,12 @@ export namespace Prisma {
 
   export type AvailableActionWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    name?: string
     AND?: AvailableActionWhereInput | AvailableActionWhereInput[]
     OR?: AvailableActionWhereInput[]
     NOT?: AvailableActionWhereInput | AvailableActionWhereInput[]
-    name?: StringFilter<"AvailableAction"> | string
     action?: ActionListRelationFilter
-  }, "id">
+  }, "id" | "name">
 
   export type AvailableActionOrderByWithAggregationInput = {
     id?: SortOrder
@@ -11751,15 +12121,21 @@ export namespace Prisma {
     NOT?: TaskWhereInput | TaskWhereInput[]
     id?: StringFilter<"Task"> | string
     runId?: StringFilter<"Task"> | string
+    actionId?: StringFilter<"Task"> | string
     status?: StringFilter<"Task"> | string
+    error?: StringNullableFilter<"Task"> | string | null
     zapRun?: XOR<ZapRunScalarRelationFilter, zapRunWhereInput>
+    action?: XOR<ActionScalarRelationFilter, ActionWhereInput>
   }
 
   export type TaskOrderByWithRelationInput = {
     id?: SortOrder
     runId?: SortOrder
+    actionId?: SortOrder
     status?: SortOrder
+    error?: SortOrderInput | SortOrder
     zapRun?: zapRunOrderByWithRelationInput
+    action?: ActionOrderByWithRelationInput
   }
 
   export type TaskWhereUniqueInput = Prisma.AtLeast<{
@@ -11768,14 +12144,19 @@ export namespace Prisma {
     OR?: TaskWhereInput[]
     NOT?: TaskWhereInput | TaskWhereInput[]
     runId?: StringFilter<"Task"> | string
+    actionId?: StringFilter<"Task"> | string
     status?: StringFilter<"Task"> | string
+    error?: StringNullableFilter<"Task"> | string | null
     zapRun?: XOR<ZapRunScalarRelationFilter, zapRunWhereInput>
+    action?: XOR<ActionScalarRelationFilter, ActionWhereInput>
   }, "id">
 
   export type TaskOrderByWithAggregationInput = {
     id?: SortOrder
     runId?: SortOrder
+    actionId?: SortOrder
     status?: SortOrder
+    error?: SortOrderInput | SortOrder
     _count?: TaskCountOrderByAggregateInput
     _max?: TaskMaxOrderByAggregateInput
     _min?: TaskMinOrderByAggregateInput
@@ -11787,13 +12168,16 @@ export namespace Prisma {
     NOT?: TaskScalarWhereWithAggregatesInput | TaskScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Task"> | string
     runId?: StringWithAggregatesFilter<"Task"> | string
+    actionId?: StringWithAggregatesFilter<"Task"> | string
     status?: StringWithAggregatesFilter<"Task"> | string
+    error?: StringNullableWithAggregatesFilter<"Task"> | string | null
   }
 
   export type UserCreateInput = {
     name: string
     email: string
     password: string
+    zaps?: ZapCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -11801,12 +12185,14 @@ export namespace Prisma {
     name: string
     email: string
     password: string
+    zaps?: ZapUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    zaps?: ZapUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -11814,6 +12200,7 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     password?: StringFieldUpdateOperationsInput | string
+    zaps?: ZapUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -11838,34 +12225,39 @@ export namespace Prisma {
 
   export type ZapCreateInput = {
     id?: string
+    user: UserCreateNestedOneWithoutZapsInput
     trigger?: TriggerCreateNestedOneWithoutZapInput
-    Action?: ActionCreateNestedManyWithoutZapInput
+    actions?: ActionCreateNestedManyWithoutZapInput
     Runs?: zapRunCreateNestedManyWithoutZapInput
   }
 
   export type ZapUncheckedCreateInput = {
     id?: string
+    userId: number
     trigger?: TriggerUncheckedCreateNestedOneWithoutZapInput
-    Action?: ActionUncheckedCreateNestedManyWithoutZapInput
+    actions?: ActionUncheckedCreateNestedManyWithoutZapInput
     Runs?: zapRunUncheckedCreateNestedManyWithoutZapInput
   }
 
   export type ZapUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutZapsNestedInput
     trigger?: TriggerUpdateOneWithoutZapNestedInput
-    Action?: ActionUpdateManyWithoutZapNestedInput
+    actions?: ActionUpdateManyWithoutZapNestedInput
     Runs?: zapRunUpdateManyWithoutZapNestedInput
   }
 
   export type ZapUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: IntFieldUpdateOperationsInput | number
     trigger?: TriggerUncheckedUpdateOneWithoutZapNestedInput
-    Action?: ActionUncheckedUpdateManyWithoutZapNestedInput
+    actions?: ActionUncheckedUpdateManyWithoutZapNestedInput
     Runs?: zapRunUncheckedUpdateManyWithoutZapNestedInput
   }
 
   export type ZapCreateManyInput = {
     id?: string
+    userId: number
   }
 
   export type ZapUpdateManyMutationInput = {
@@ -11874,10 +12266,12 @@ export namespace Prisma {
 
   export type ZapUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: IntFieldUpdateOperationsInput | number
   }
 
   export type TriggerCreateInput = {
     id?: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     type: AvailableTriggerCreateNestedOneWithoutTriggerInput
     zap: ZapCreateNestedOneWithoutTriggerInput
   }
@@ -11886,10 +12280,12 @@ export namespace Prisma {
     id?: string
     triggerId: string
     zapId: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TriggerUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     type?: AvailableTriggerUpdateOneRequiredWithoutTriggerNestedInput
     zap?: ZapUpdateOneRequiredWithoutTriggerNestedInput
   }
@@ -11898,22 +12294,26 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     triggerId?: StringFieldUpdateOperationsInput | string
     zapId?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TriggerCreateManyInput = {
     id?: string
     triggerId: string
     zapId: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TriggerUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TriggerUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     triggerId?: StringFieldUpdateOperationsInput | string
     zapId?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type AvailableTriggerCreateInput = {
@@ -11957,42 +12357,60 @@ export namespace Prisma {
 
   export type ActionCreateInput = {
     id?: string
+    sortingOrder?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     type: AvailableActionCreateNestedOneWithoutActionInput
-    zap: ZapCreateNestedOneWithoutActionInput
+    zap: ZapCreateNestedOneWithoutActionsInput
+    Task?: TaskCreateNestedManyWithoutActionInput
   }
 
   export type ActionUncheckedCreateInput = {
     id?: string
     ZapId: string
     ActionName: string
+    sortingOrder?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    Task?: TaskUncheckedCreateNestedManyWithoutActionInput
   }
 
   export type ActionUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    sortingOrder?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     type?: AvailableActionUpdateOneRequiredWithoutActionNestedInput
-    zap?: ZapUpdateOneRequiredWithoutActionNestedInput
+    zap?: ZapUpdateOneRequiredWithoutActionsNestedInput
+    Task?: TaskUpdateManyWithoutActionNestedInput
   }
 
   export type ActionUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     ZapId?: StringFieldUpdateOperationsInput | string
     ActionName?: StringFieldUpdateOperationsInput | string
+    sortingOrder?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    Task?: TaskUncheckedUpdateManyWithoutActionNestedInput
   }
 
   export type ActionCreateManyInput = {
     id?: string
     ZapId: string
     ActionName: string
+    sortingOrder?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ActionUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    sortingOrder?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ActionUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     ZapId?: StringFieldUpdateOperationsInput | string
     ActionName?: StringFieldUpdateOperationsInput | string
+    sortingOrder?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type AvailableActionCreateInput = {
@@ -12134,42 +12552,55 @@ export namespace Prisma {
   export type TaskCreateInput = {
     id?: string
     status: string
+    error?: string | null
     zapRun: zapRunCreateNestedOneWithoutTaskInput
+    action: ActionCreateNestedOneWithoutTaskInput
   }
 
   export type TaskUncheckedCreateInput = {
     id?: string
     runId: string
+    actionId: string
     status: string
+    error?: string | null
   }
 
   export type TaskUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    error?: NullableStringFieldUpdateOperationsInput | string | null
     zapRun?: zapRunUpdateOneRequiredWithoutTaskNestedInput
+    action?: ActionUpdateOneRequiredWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     runId?: StringFieldUpdateOperationsInput | string
+    actionId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    error?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TaskCreateManyInput = {
     id?: string
     runId: string
+    actionId: string
     status: string
+    error?: string | null
   }
 
   export type TaskUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    error?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TaskUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     runId?: StringFieldUpdateOperationsInput | string
+    actionId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    error?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type IntFilter<$PrismaModel = never> = {
@@ -12196,6 +12627,16 @@ export namespace Prisma {
     endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
     not?: NestedStringFilter<$PrismaModel> | string
+  }
+
+  export type ZapListRelationFilter = {
+    every?: ZapWhereInput
+    some?: ZapWhereInput
+    none?: ZapWhereInput
+  }
+
+  export type ZapOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type UserCountOrderByAggregateInput = {
@@ -12261,6 +12702,11 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
+  export type UserScalarRelationFilter = {
+    is?: UserWhereInput
+    isNot?: UserWhereInput
+  }
+
   export type TriggerNullableScalarRelationFilter = {
     is?: TriggerWhereInput | null
     isNot?: TriggerWhereInput | null
@@ -12288,14 +12734,48 @@ export namespace Prisma {
 
   export type ZapCountOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ZapAvgOrderByAggregateInput = {
+    userId?: SortOrder
   }
 
   export type ZapMaxOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
   }
 
   export type ZapMinOrderByAggregateInput = {
     id?: SortOrder
+    userId?: SortOrder
+  }
+
+  export type ZapSumOrderByAggregateInput = {
+    userId?: SortOrder
+  }
+  export type JsonNullableFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
   export type AvailableTriggerScalarRelationFilter = {
@@ -12308,10 +12788,16 @@ export namespace Prisma {
     isNot?: ZapWhereInput
   }
 
+  export type SortOrderInput = {
+    sort: SortOrder
+    nulls?: NullsOrder
+  }
+
   export type TriggerCountOrderByAggregateInput = {
     id?: SortOrder
     triggerId?: SortOrder
     zapId?: SortOrder
+    metadata?: SortOrder
   }
 
   export type TriggerMaxOrderByAggregateInput = {
@@ -12324,6 +12810,32 @@ export namespace Prisma {
     id?: SortOrder
     triggerId?: SortOrder
     zapId?: SortOrder
+  }
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
+    | PatchUndefined<
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
+      >
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
+
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    path?: string[]
+    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
   export type TriggerListRelationFilter = {
@@ -12356,22 +12868,44 @@ export namespace Prisma {
     isNot?: AvailableActionWhereInput
   }
 
+  export type TaskListRelationFilter = {
+    every?: TaskWhereInput
+    some?: TaskWhereInput
+    none?: TaskWhereInput
+  }
+
+  export type TaskOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type ActionCountOrderByAggregateInput = {
     id?: SortOrder
     ZapId?: SortOrder
     ActionName?: SortOrder
+    sortingOrder?: SortOrder
+    metadata?: SortOrder
+  }
+
+  export type ActionAvgOrderByAggregateInput = {
+    sortingOrder?: SortOrder
   }
 
   export type ActionMaxOrderByAggregateInput = {
     id?: SortOrder
     ZapId?: SortOrder
     ActionName?: SortOrder
+    sortingOrder?: SortOrder
   }
 
   export type ActionMinOrderByAggregateInput = {
     id?: SortOrder
     ZapId?: SortOrder
     ActionName?: SortOrder
+    sortingOrder?: SortOrder
+  }
+
+  export type ActionSumOrderByAggregateInput = {
+    sortingOrder?: SortOrder
   }
 
   export type AvailableActionCountOrderByAggregateInput = {
@@ -12403,48 +12937,10 @@ export namespace Prisma {
     mode?: QueryMode
     not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
-  export type JsonNullableFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
-
-  export type TaskListRelationFilter = {
-    every?: TaskWhereInput
-    some?: TaskWhereInput
-    none?: TaskWhereInput
-  }
 
   export type ZapRunoutboxNullableScalarRelationFilter = {
     is?: zapRunoutboxWhereInput | null
     isNot?: zapRunoutboxWhereInput | null
-  }
-
-  export type SortOrderInput = {
-    sort: SortOrder
-    nulls?: NullsOrder
-  }
-
-  export type TaskOrderByRelationAggregateInput = {
-    _count?: SortOrder
   }
 
   export type zapRunCountOrderByAggregateInput = {
@@ -12483,32 +12979,6 @@ export namespace Prisma {
     _min?: NestedStringNullableFilter<$PrismaModel>
     _max?: NestedStringNullableFilter<$PrismaModel>
   }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> =
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    mode?: QueryMode | EnumQueryModeFieldRefInput<$PrismaModel>
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
-  }
 
   export type ZapRunScalarRelationFilter = {
     is?: zapRunWhereInput
@@ -12531,26 +13001,65 @@ export namespace Prisma {
     zapRunId?: SortOrder
   }
 
+  export type ActionScalarRelationFilter = {
+    is?: ActionWhereInput
+    isNot?: ActionWhereInput
+  }
+
   export type TaskCountOrderByAggregateInput = {
     id?: SortOrder
     runId?: SortOrder
+    actionId?: SortOrder
     status?: SortOrder
+    error?: SortOrder
   }
 
   export type TaskMaxOrderByAggregateInput = {
     id?: SortOrder
     runId?: SortOrder
+    actionId?: SortOrder
     status?: SortOrder
+    error?: SortOrder
   }
 
   export type TaskMinOrderByAggregateInput = {
     id?: SortOrder
     runId?: SortOrder
+    actionId?: SortOrder
     status?: SortOrder
+    error?: SortOrder
+  }
+
+  export type ZapCreateNestedManyWithoutUserInput = {
+    create?: XOR<ZapCreateWithoutUserInput, ZapUncheckedCreateWithoutUserInput> | ZapCreateWithoutUserInput[] | ZapUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ZapCreateOrConnectWithoutUserInput | ZapCreateOrConnectWithoutUserInput[]
+    createMany?: ZapCreateManyUserInputEnvelope
+    connect?: ZapWhereUniqueInput | ZapWhereUniqueInput[]
+  }
+
+  export type ZapUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<ZapCreateWithoutUserInput, ZapUncheckedCreateWithoutUserInput> | ZapCreateWithoutUserInput[] | ZapUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ZapCreateOrConnectWithoutUserInput | ZapCreateOrConnectWithoutUserInput[]
+    createMany?: ZapCreateManyUserInputEnvelope
+    connect?: ZapWhereUniqueInput | ZapWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
     set?: string
+  }
+
+  export type ZapUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ZapCreateWithoutUserInput, ZapUncheckedCreateWithoutUserInput> | ZapCreateWithoutUserInput[] | ZapUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ZapCreateOrConnectWithoutUserInput | ZapCreateOrConnectWithoutUserInput[]
+    upsert?: ZapUpsertWithWhereUniqueWithoutUserInput | ZapUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ZapCreateManyUserInputEnvelope
+    set?: ZapWhereUniqueInput | ZapWhereUniqueInput[]
+    disconnect?: ZapWhereUniqueInput | ZapWhereUniqueInput[]
+    delete?: ZapWhereUniqueInput | ZapWhereUniqueInput[]
+    connect?: ZapWhereUniqueInput | ZapWhereUniqueInput[]
+    update?: ZapUpdateWithWhereUniqueWithoutUserInput | ZapUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ZapUpdateManyWithWhereWithoutUserInput | ZapUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ZapScalarWhereInput | ZapScalarWhereInput[]
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -12559,6 +13068,26 @@ export namespace Prisma {
     decrement?: number
     multiply?: number
     divide?: number
+  }
+
+  export type ZapUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<ZapCreateWithoutUserInput, ZapUncheckedCreateWithoutUserInput> | ZapCreateWithoutUserInput[] | ZapUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: ZapCreateOrConnectWithoutUserInput | ZapCreateOrConnectWithoutUserInput[]
+    upsert?: ZapUpsertWithWhereUniqueWithoutUserInput | ZapUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: ZapCreateManyUserInputEnvelope
+    set?: ZapWhereUniqueInput | ZapWhereUniqueInput[]
+    disconnect?: ZapWhereUniqueInput | ZapWhereUniqueInput[]
+    delete?: ZapWhereUniqueInput | ZapWhereUniqueInput[]
+    connect?: ZapWhereUniqueInput | ZapWhereUniqueInput[]
+    update?: ZapUpdateWithWhereUniqueWithoutUserInput | ZapUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: ZapUpdateManyWithWhereWithoutUserInput | ZapUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: ZapScalarWhereInput | ZapScalarWhereInput[]
+  }
+
+  export type UserCreateNestedOneWithoutZapsInput = {
+    create?: XOR<UserCreateWithoutZapsInput, UserUncheckedCreateWithoutZapsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutZapsInput
+    connect?: UserWhereUniqueInput
   }
 
   export type TriggerCreateNestedOneWithoutZapInput = {
@@ -12599,6 +13128,14 @@ export namespace Prisma {
     connectOrCreate?: zapRunCreateOrConnectWithoutZapInput | zapRunCreateOrConnectWithoutZapInput[]
     createMany?: zapRunCreateManyZapInputEnvelope
     connect?: zapRunWhereUniqueInput | zapRunWhereUniqueInput[]
+  }
+
+  export type UserUpdateOneRequiredWithoutZapsNestedInput = {
+    create?: XOR<UserCreateWithoutZapsInput, UserUncheckedCreateWithoutZapsInput>
+    connectOrCreate?: UserCreateOrConnectWithoutZapsInput
+    upsert?: UserUpsertWithoutZapsInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutZapsInput, UserUpdateWithoutZapsInput>, UserUncheckedUpdateWithoutZapsInput>
   }
 
   export type TriggerUpdateOneWithoutZapNestedInput = {
@@ -12753,10 +13290,24 @@ export namespace Prisma {
     connect?: AvailableActionWhereUniqueInput
   }
 
-  export type ZapCreateNestedOneWithoutActionInput = {
-    create?: XOR<ZapCreateWithoutActionInput, ZapUncheckedCreateWithoutActionInput>
-    connectOrCreate?: ZapCreateOrConnectWithoutActionInput
+  export type ZapCreateNestedOneWithoutActionsInput = {
+    create?: XOR<ZapCreateWithoutActionsInput, ZapUncheckedCreateWithoutActionsInput>
+    connectOrCreate?: ZapCreateOrConnectWithoutActionsInput
     connect?: ZapWhereUniqueInput
+  }
+
+  export type TaskCreateNestedManyWithoutActionInput = {
+    create?: XOR<TaskCreateWithoutActionInput, TaskUncheckedCreateWithoutActionInput> | TaskCreateWithoutActionInput[] | TaskUncheckedCreateWithoutActionInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutActionInput | TaskCreateOrConnectWithoutActionInput[]
+    createMany?: TaskCreateManyActionInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+  }
+
+  export type TaskUncheckedCreateNestedManyWithoutActionInput = {
+    create?: XOR<TaskCreateWithoutActionInput, TaskUncheckedCreateWithoutActionInput> | TaskCreateWithoutActionInput[] | TaskUncheckedCreateWithoutActionInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutActionInput | TaskCreateOrConnectWithoutActionInput[]
+    createMany?: TaskCreateManyActionInputEnvelope
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
   }
 
   export type AvailableActionUpdateOneRequiredWithoutActionNestedInput = {
@@ -12767,12 +13318,40 @@ export namespace Prisma {
     update?: XOR<XOR<AvailableActionUpdateToOneWithWhereWithoutActionInput, AvailableActionUpdateWithoutActionInput>, AvailableActionUncheckedUpdateWithoutActionInput>
   }
 
-  export type ZapUpdateOneRequiredWithoutActionNestedInput = {
-    create?: XOR<ZapCreateWithoutActionInput, ZapUncheckedCreateWithoutActionInput>
-    connectOrCreate?: ZapCreateOrConnectWithoutActionInput
-    upsert?: ZapUpsertWithoutActionInput
+  export type ZapUpdateOneRequiredWithoutActionsNestedInput = {
+    create?: XOR<ZapCreateWithoutActionsInput, ZapUncheckedCreateWithoutActionsInput>
+    connectOrCreate?: ZapCreateOrConnectWithoutActionsInput
+    upsert?: ZapUpsertWithoutActionsInput
     connect?: ZapWhereUniqueInput
-    update?: XOR<XOR<ZapUpdateToOneWithWhereWithoutActionInput, ZapUpdateWithoutActionInput>, ZapUncheckedUpdateWithoutActionInput>
+    update?: XOR<XOR<ZapUpdateToOneWithWhereWithoutActionsInput, ZapUpdateWithoutActionsInput>, ZapUncheckedUpdateWithoutActionsInput>
+  }
+
+  export type TaskUpdateManyWithoutActionNestedInput = {
+    create?: XOR<TaskCreateWithoutActionInput, TaskUncheckedCreateWithoutActionInput> | TaskCreateWithoutActionInput[] | TaskUncheckedCreateWithoutActionInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutActionInput | TaskCreateOrConnectWithoutActionInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutActionInput | TaskUpsertWithWhereUniqueWithoutActionInput[]
+    createMany?: TaskCreateManyActionInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutActionInput | TaskUpdateWithWhereUniqueWithoutActionInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutActionInput | TaskUpdateManyWithWhereWithoutActionInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
+  }
+
+  export type TaskUncheckedUpdateManyWithoutActionNestedInput = {
+    create?: XOR<TaskCreateWithoutActionInput, TaskUncheckedCreateWithoutActionInput> | TaskCreateWithoutActionInput[] | TaskUncheckedCreateWithoutActionInput[]
+    connectOrCreate?: TaskCreateOrConnectWithoutActionInput | TaskCreateOrConnectWithoutActionInput[]
+    upsert?: TaskUpsertWithWhereUniqueWithoutActionInput | TaskUpsertWithWhereUniqueWithoutActionInput[]
+    createMany?: TaskCreateManyActionInputEnvelope
+    set?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    disconnect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    delete?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    connect?: TaskWhereUniqueInput | TaskWhereUniqueInput[]
+    update?: TaskUpdateWithWhereUniqueWithoutActionInput | TaskUpdateWithWhereUniqueWithoutActionInput[]
+    updateMany?: TaskUpdateManyWithWhereWithoutActionInput | TaskUpdateManyWithWhereWithoutActionInput[]
+    deleteMany?: TaskScalarWhereInput | TaskScalarWhereInput[]
   }
 
   export type ActionCreateNestedManyWithoutTypeInput = {
@@ -12929,12 +13508,26 @@ export namespace Prisma {
     connect?: zapRunWhereUniqueInput
   }
 
+  export type ActionCreateNestedOneWithoutTaskInput = {
+    create?: XOR<ActionCreateWithoutTaskInput, ActionUncheckedCreateWithoutTaskInput>
+    connectOrCreate?: ActionCreateOrConnectWithoutTaskInput
+    connect?: ActionWhereUniqueInput
+  }
+
   export type zapRunUpdateOneRequiredWithoutTaskNestedInput = {
     create?: XOR<zapRunCreateWithoutTaskInput, zapRunUncheckedCreateWithoutTaskInput>
     connectOrCreate?: zapRunCreateOrConnectWithoutTaskInput
     upsert?: zapRunUpsertWithoutTaskInput
     connect?: zapRunWhereUniqueInput
     update?: XOR<XOR<zapRunUpdateToOneWithWhereWithoutTaskInput, zapRunUpdateWithoutTaskInput>, zapRunUncheckedUpdateWithoutTaskInput>
+  }
+
+  export type ActionUpdateOneRequiredWithoutTaskNestedInput = {
+    create?: XOR<ActionCreateWithoutTaskInput, ActionUncheckedCreateWithoutTaskInput>
+    connectOrCreate?: ActionCreateOrConnectWithoutTaskInput
+    upsert?: ActionUpsertWithoutTaskInput
+    connect?: ActionWhereUniqueInput
+    update?: XOR<XOR<ActionUpdateToOneWithWhereWithoutTaskInput, ActionUpdateWithoutTaskInput>, ActionUncheckedUpdateWithoutTaskInput>
   }
 
   export type NestedIntFilter<$PrismaModel = never> = {
@@ -13006,37 +13599,6 @@ export namespace Prisma {
     _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type NestedStringNullableFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableFilter<$PrismaModel> | string | null
-  }
-
-  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: string | StringFieldRefInput<$PrismaModel> | null
-    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    lt?: string | StringFieldRefInput<$PrismaModel>
-    lte?: string | StringFieldRefInput<$PrismaModel>
-    gt?: string | StringFieldRefInput<$PrismaModel>
-    gte?: string | StringFieldRefInput<$PrismaModel>
-    contains?: string | StringFieldRefInput<$PrismaModel>
-    startsWith?: string | StringFieldRefInput<$PrismaModel>
-    endsWith?: string | StringFieldRefInput<$PrismaModel>
-    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedStringNullableFilter<$PrismaModel>
-    _max?: NestedStringNullableFilter<$PrismaModel>
-  }
-
   export type NestedIntNullableFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel> | null
     in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
@@ -13071,14 +13633,113 @@ export namespace Prisma {
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
+  }
+
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
+  }
+
+  export type ZapCreateWithoutUserInput = {
+    id?: string
+    trigger?: TriggerCreateNestedOneWithoutZapInput
+    actions?: ActionCreateNestedManyWithoutZapInput
+    Runs?: zapRunCreateNestedManyWithoutZapInput
+  }
+
+  export type ZapUncheckedCreateWithoutUserInput = {
+    id?: string
+    trigger?: TriggerUncheckedCreateNestedOneWithoutZapInput
+    actions?: ActionUncheckedCreateNestedManyWithoutZapInput
+    Runs?: zapRunUncheckedCreateNestedManyWithoutZapInput
+  }
+
+  export type ZapCreateOrConnectWithoutUserInput = {
+    where: ZapWhereUniqueInput
+    create: XOR<ZapCreateWithoutUserInput, ZapUncheckedCreateWithoutUserInput>
+  }
+
+  export type ZapCreateManyUserInputEnvelope = {
+    data: ZapCreateManyUserInput | ZapCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type ZapUpsertWithWhereUniqueWithoutUserInput = {
+    where: ZapWhereUniqueInput
+    update: XOR<ZapUpdateWithoutUserInput, ZapUncheckedUpdateWithoutUserInput>
+    create: XOR<ZapCreateWithoutUserInput, ZapUncheckedCreateWithoutUserInput>
+  }
+
+  export type ZapUpdateWithWhereUniqueWithoutUserInput = {
+    where: ZapWhereUniqueInput
+    data: XOR<ZapUpdateWithoutUserInput, ZapUncheckedUpdateWithoutUserInput>
+  }
+
+  export type ZapUpdateManyWithWhereWithoutUserInput = {
+    where: ZapScalarWhereInput
+    data: XOR<ZapUpdateManyMutationInput, ZapUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type ZapScalarWhereInput = {
+    AND?: ZapScalarWhereInput | ZapScalarWhereInput[]
+    OR?: ZapScalarWhereInput[]
+    NOT?: ZapScalarWhereInput | ZapScalarWhereInput[]
+    id?: StringFilter<"Zap"> | string
+    userId?: IntFilter<"Zap"> | number
+  }
+
+  export type UserCreateWithoutZapsInput = {
+    name: string
+    email: string
+    password: string
+  }
+
+  export type UserUncheckedCreateWithoutZapsInput = {
+    id?: number
+    name: string
+    email: string
+    password: string
+  }
+
+  export type UserCreateOrConnectWithoutZapsInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutZapsInput, UserUncheckedCreateWithoutZapsInput>
+  }
+
   export type TriggerCreateWithoutZapInput = {
     id?: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     type: AvailableTriggerCreateNestedOneWithoutTriggerInput
   }
 
   export type TriggerUncheckedCreateWithoutZapInput = {
     id?: string
     triggerId: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TriggerCreateOrConnectWithoutZapInput = {
@@ -13088,12 +13749,18 @@ export namespace Prisma {
 
   export type ActionCreateWithoutZapInput = {
     id?: string
+    sortingOrder?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     type: AvailableActionCreateNestedOneWithoutActionInput
+    Task?: TaskCreateNestedManyWithoutActionInput
   }
 
   export type ActionUncheckedCreateWithoutZapInput = {
     id?: string
     ActionName: string
+    sortingOrder?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    Task?: TaskUncheckedCreateNestedManyWithoutActionInput
   }
 
   export type ActionCreateOrConnectWithoutZapInput = {
@@ -13132,6 +13799,30 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type UserUpsertWithoutZapsInput = {
+    update: XOR<UserUpdateWithoutZapsInput, UserUncheckedUpdateWithoutZapsInput>
+    create: XOR<UserCreateWithoutZapsInput, UserUncheckedCreateWithoutZapsInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutZapsInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutZapsInput, UserUncheckedUpdateWithoutZapsInput>
+  }
+
+  export type UserUpdateWithoutZapsInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type UserUncheckedUpdateWithoutZapsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    password?: StringFieldUpdateOperationsInput | string
+  }
+
   export type TriggerUpsertWithoutZapInput = {
     update: XOR<TriggerUpdateWithoutZapInput, TriggerUncheckedUpdateWithoutZapInput>
     create: XOR<TriggerCreateWithoutZapInput, TriggerUncheckedCreateWithoutZapInput>
@@ -13145,12 +13836,14 @@ export namespace Prisma {
 
   export type TriggerUpdateWithoutZapInput = {
     id?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     type?: AvailableTriggerUpdateOneRequiredWithoutTriggerNestedInput
   }
 
   export type TriggerUncheckedUpdateWithoutZapInput = {
     id?: StringFieldUpdateOperationsInput | string
     triggerId?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ActionUpsertWithWhereUniqueWithoutZapInput = {
@@ -13176,6 +13869,8 @@ export namespace Prisma {
     id?: StringFilter<"Action"> | string
     ZapId?: StringFilter<"Action"> | string
     ActionName?: StringFilter<"Action"> | string
+    sortingOrder?: IntFilter<"Action"> | number
+    metadata?: JsonNullableFilter<"Action">
   }
 
   export type zapRunUpsertWithWhereUniqueWithoutZapInput = {
@@ -13221,13 +13916,15 @@ export namespace Prisma {
 
   export type ZapCreateWithoutTriggerInput = {
     id?: string
-    Action?: ActionCreateNestedManyWithoutZapInput
+    user: UserCreateNestedOneWithoutZapsInput
+    actions?: ActionCreateNestedManyWithoutZapInput
     Runs?: zapRunCreateNestedManyWithoutZapInput
   }
 
   export type ZapUncheckedCreateWithoutTriggerInput = {
     id?: string
-    Action?: ActionUncheckedCreateNestedManyWithoutZapInput
+    userId: number
+    actions?: ActionUncheckedCreateNestedManyWithoutZapInput
     Runs?: zapRunUncheckedCreateNestedManyWithoutZapInput
   }
 
@@ -13270,24 +13967,28 @@ export namespace Prisma {
 
   export type ZapUpdateWithoutTriggerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Action?: ActionUpdateManyWithoutZapNestedInput
+    user?: UserUpdateOneRequiredWithoutZapsNestedInput
+    actions?: ActionUpdateManyWithoutZapNestedInput
     Runs?: zapRunUpdateManyWithoutZapNestedInput
   }
 
   export type ZapUncheckedUpdateWithoutTriggerInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Action?: ActionUncheckedUpdateManyWithoutZapNestedInput
+    userId?: IntFieldUpdateOperationsInput | number
+    actions?: ActionUncheckedUpdateManyWithoutZapNestedInput
     Runs?: zapRunUncheckedUpdateManyWithoutZapNestedInput
   }
 
   export type TriggerCreateWithoutTypeInput = {
     id?: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     zap: ZapCreateNestedOneWithoutTriggerInput
   }
 
   export type TriggerUncheckedCreateWithoutTypeInput = {
     id?: string
     zapId: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TriggerCreateOrConnectWithoutTypeInput = {
@@ -13323,6 +14024,7 @@ export namespace Prisma {
     id?: StringFilter<"Trigger"> | string
     triggerId?: StringFilter<"Trigger"> | string
     zapId?: StringFilter<"Trigger"> | string
+    metadata?: JsonNullableFilter<"Trigger">
   }
 
   export type AvailableActionCreateWithoutActionInput = {
@@ -13340,21 +14042,47 @@ export namespace Prisma {
     create: XOR<AvailableActionCreateWithoutActionInput, AvailableActionUncheckedCreateWithoutActionInput>
   }
 
-  export type ZapCreateWithoutActionInput = {
+  export type ZapCreateWithoutActionsInput = {
     id?: string
+    user: UserCreateNestedOneWithoutZapsInput
     trigger?: TriggerCreateNestedOneWithoutZapInput
     Runs?: zapRunCreateNestedManyWithoutZapInput
   }
 
-  export type ZapUncheckedCreateWithoutActionInput = {
+  export type ZapUncheckedCreateWithoutActionsInput = {
     id?: string
+    userId: number
     trigger?: TriggerUncheckedCreateNestedOneWithoutZapInput
     Runs?: zapRunUncheckedCreateNestedManyWithoutZapInput
   }
 
-  export type ZapCreateOrConnectWithoutActionInput = {
+  export type ZapCreateOrConnectWithoutActionsInput = {
     where: ZapWhereUniqueInput
-    create: XOR<ZapCreateWithoutActionInput, ZapUncheckedCreateWithoutActionInput>
+    create: XOR<ZapCreateWithoutActionsInput, ZapUncheckedCreateWithoutActionsInput>
+  }
+
+  export type TaskCreateWithoutActionInput = {
+    id?: string
+    status: string
+    error?: string | null
+    zapRun: zapRunCreateNestedOneWithoutTaskInput
+  }
+
+  export type TaskUncheckedCreateWithoutActionInput = {
+    id?: string
+    runId: string
+    status: string
+    error?: string | null
+  }
+
+  export type TaskCreateOrConnectWithoutActionInput = {
+    where: TaskWhereUniqueInput
+    create: XOR<TaskCreateWithoutActionInput, TaskUncheckedCreateWithoutActionInput>
+  }
+
+  export type TaskCreateManyActionInputEnvelope = {
+    data: TaskCreateManyActionInput | TaskCreateManyActionInput[]
+    skipDuplicates?: boolean
   }
 
   export type AvailableActionUpsertWithoutActionInput = {
@@ -13378,37 +14106,72 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
   }
 
-  export type ZapUpsertWithoutActionInput = {
-    update: XOR<ZapUpdateWithoutActionInput, ZapUncheckedUpdateWithoutActionInput>
-    create: XOR<ZapCreateWithoutActionInput, ZapUncheckedCreateWithoutActionInput>
+  export type ZapUpsertWithoutActionsInput = {
+    update: XOR<ZapUpdateWithoutActionsInput, ZapUncheckedUpdateWithoutActionsInput>
+    create: XOR<ZapCreateWithoutActionsInput, ZapUncheckedCreateWithoutActionsInput>
     where?: ZapWhereInput
   }
 
-  export type ZapUpdateToOneWithWhereWithoutActionInput = {
+  export type ZapUpdateToOneWithWhereWithoutActionsInput = {
     where?: ZapWhereInput
-    data: XOR<ZapUpdateWithoutActionInput, ZapUncheckedUpdateWithoutActionInput>
+    data: XOR<ZapUpdateWithoutActionsInput, ZapUncheckedUpdateWithoutActionsInput>
   }
 
-  export type ZapUpdateWithoutActionInput = {
+  export type ZapUpdateWithoutActionsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutZapsNestedInput
     trigger?: TriggerUpdateOneWithoutZapNestedInput
     Runs?: zapRunUpdateManyWithoutZapNestedInput
   }
 
-  export type ZapUncheckedUpdateWithoutActionInput = {
+  export type ZapUncheckedUpdateWithoutActionsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: IntFieldUpdateOperationsInput | number
     trigger?: TriggerUncheckedUpdateOneWithoutZapNestedInput
     Runs?: zapRunUncheckedUpdateManyWithoutZapNestedInput
   }
 
+  export type TaskUpsertWithWhereUniqueWithoutActionInput = {
+    where: TaskWhereUniqueInput
+    update: XOR<TaskUpdateWithoutActionInput, TaskUncheckedUpdateWithoutActionInput>
+    create: XOR<TaskCreateWithoutActionInput, TaskUncheckedCreateWithoutActionInput>
+  }
+
+  export type TaskUpdateWithWhereUniqueWithoutActionInput = {
+    where: TaskWhereUniqueInput
+    data: XOR<TaskUpdateWithoutActionInput, TaskUncheckedUpdateWithoutActionInput>
+  }
+
+  export type TaskUpdateManyWithWhereWithoutActionInput = {
+    where: TaskScalarWhereInput
+    data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutActionInput>
+  }
+
+  export type TaskScalarWhereInput = {
+    AND?: TaskScalarWhereInput | TaskScalarWhereInput[]
+    OR?: TaskScalarWhereInput[]
+    NOT?: TaskScalarWhereInput | TaskScalarWhereInput[]
+    id?: StringFilter<"Task"> | string
+    runId?: StringFilter<"Task"> | string
+    actionId?: StringFilter<"Task"> | string
+    status?: StringFilter<"Task"> | string
+    error?: StringNullableFilter<"Task"> | string | null
+  }
+
   export type ActionCreateWithoutTypeInput = {
     id?: string
-    zap: ZapCreateNestedOneWithoutActionInput
+    sortingOrder?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    zap: ZapCreateNestedOneWithoutActionsInput
+    Task?: TaskCreateNestedManyWithoutActionInput
   }
 
   export type ActionUncheckedCreateWithoutTypeInput = {
     id?: string
     ZapId: string
+    sortingOrder?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    Task?: TaskUncheckedCreateNestedManyWithoutActionInput
   }
 
   export type ActionCreateOrConnectWithoutTypeInput = {
@@ -13440,11 +14203,15 @@ export namespace Prisma {
   export type TaskCreateWithoutZapRunInput = {
     id?: string
     status: string
+    error?: string | null
+    action: ActionCreateNestedOneWithoutTaskInput
   }
 
   export type TaskUncheckedCreateWithoutZapRunInput = {
     id?: string
+    actionId: string
     status: string
+    error?: string | null
   }
 
   export type TaskCreateOrConnectWithoutZapRunInput = {
@@ -13459,14 +14226,16 @@ export namespace Prisma {
 
   export type ZapCreateWithoutRunsInput = {
     id?: string
+    user: UserCreateNestedOneWithoutZapsInput
     trigger?: TriggerCreateNestedOneWithoutZapInput
-    Action?: ActionCreateNestedManyWithoutZapInput
+    actions?: ActionCreateNestedManyWithoutZapInput
   }
 
   export type ZapUncheckedCreateWithoutRunsInput = {
     id?: string
+    userId: number
     trigger?: TriggerUncheckedCreateNestedOneWithoutZapInput
-    Action?: ActionUncheckedCreateNestedManyWithoutZapInput
+    actions?: ActionUncheckedCreateNestedManyWithoutZapInput
   }
 
   export type ZapCreateOrConnectWithoutRunsInput = {
@@ -13505,15 +14274,6 @@ export namespace Prisma {
     data: XOR<TaskUpdateManyMutationInput, TaskUncheckedUpdateManyWithoutZapRunInput>
   }
 
-  export type TaskScalarWhereInput = {
-    AND?: TaskScalarWhereInput | TaskScalarWhereInput[]
-    OR?: TaskScalarWhereInput[]
-    NOT?: TaskScalarWhereInput | TaskScalarWhereInput[]
-    id?: StringFilter<"Task"> | string
-    runId?: StringFilter<"Task"> | string
-    status?: StringFilter<"Task"> | string
-  }
-
   export type ZapUpsertWithoutRunsInput = {
     update: XOR<ZapUpdateWithoutRunsInput, ZapUncheckedUpdateWithoutRunsInput>
     create: XOR<ZapCreateWithoutRunsInput, ZapUncheckedCreateWithoutRunsInput>
@@ -13527,14 +14287,16 @@ export namespace Prisma {
 
   export type ZapUpdateWithoutRunsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    user?: UserUpdateOneRequiredWithoutZapsNestedInput
     trigger?: TriggerUpdateOneWithoutZapNestedInput
-    Action?: ActionUpdateManyWithoutZapNestedInput
+    actions?: ActionUpdateManyWithoutZapNestedInput
   }
 
   export type ZapUncheckedUpdateWithoutRunsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    userId?: IntFieldUpdateOperationsInput | number
     trigger?: TriggerUncheckedUpdateOneWithoutZapNestedInput
-    Action?: ActionUncheckedUpdateManyWithoutZapNestedInput
+    actions?: ActionUncheckedUpdateManyWithoutZapNestedInput
   }
 
   export type zapRunoutboxUpsertWithoutZaprunInput = {
@@ -13627,6 +14389,27 @@ export namespace Prisma {
     create: XOR<zapRunCreateWithoutTaskInput, zapRunUncheckedCreateWithoutTaskInput>
   }
 
+  export type ActionCreateWithoutTaskInput = {
+    id?: string
+    sortingOrder?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    type: AvailableActionCreateNestedOneWithoutActionInput
+    zap: ZapCreateNestedOneWithoutActionsInput
+  }
+
+  export type ActionUncheckedCreateWithoutTaskInput = {
+    id?: string
+    ZapId: string
+    ActionName: string
+    sortingOrder?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type ActionCreateOrConnectWithoutTaskInput = {
+    where: ActionWhereUniqueInput
+    create: XOR<ActionCreateWithoutTaskInput, ActionUncheckedCreateWithoutTaskInput>
+  }
+
   export type zapRunUpsertWithoutTaskInput = {
     update: XOR<zapRunUpdateWithoutTaskInput, zapRunUncheckedUpdateWithoutTaskInput>
     create: XOR<zapRunCreateWithoutTaskInput, zapRunUncheckedCreateWithoutTaskInput>
@@ -13654,9 +14437,60 @@ export namespace Prisma {
     zaprunoutbox?: zapRunoutboxUncheckedUpdateOneWithoutZaprunNestedInput
   }
 
+  export type ActionUpsertWithoutTaskInput = {
+    update: XOR<ActionUpdateWithoutTaskInput, ActionUncheckedUpdateWithoutTaskInput>
+    create: XOR<ActionCreateWithoutTaskInput, ActionUncheckedCreateWithoutTaskInput>
+    where?: ActionWhereInput
+  }
+
+  export type ActionUpdateToOneWithWhereWithoutTaskInput = {
+    where?: ActionWhereInput
+    data: XOR<ActionUpdateWithoutTaskInput, ActionUncheckedUpdateWithoutTaskInput>
+  }
+
+  export type ActionUpdateWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    sortingOrder?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    type?: AvailableActionUpdateOneRequiredWithoutActionNestedInput
+    zap?: ZapUpdateOneRequiredWithoutActionsNestedInput
+  }
+
+  export type ActionUncheckedUpdateWithoutTaskInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    ZapId?: StringFieldUpdateOperationsInput | string
+    ActionName?: StringFieldUpdateOperationsInput | string
+    sortingOrder?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type ZapCreateManyUserInput = {
+    id?: string
+  }
+
+  export type ZapUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    trigger?: TriggerUpdateOneWithoutZapNestedInput
+    actions?: ActionUpdateManyWithoutZapNestedInput
+    Runs?: zapRunUpdateManyWithoutZapNestedInput
+  }
+
+  export type ZapUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    trigger?: TriggerUncheckedUpdateOneWithoutZapNestedInput
+    actions?: ActionUncheckedUpdateManyWithoutZapNestedInput
+    Runs?: zapRunUncheckedUpdateManyWithoutZapNestedInput
+  }
+
+  export type ZapUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+  }
+
   export type ActionCreateManyZapInput = {
     id?: string
     ActionName: string
+    sortingOrder?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type zapRunCreateManyZapInput = {
@@ -13667,17 +14501,25 @@ export namespace Prisma {
 
   export type ActionUpdateWithoutZapInput = {
     id?: StringFieldUpdateOperationsInput | string
+    sortingOrder?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     type?: AvailableActionUpdateOneRequiredWithoutActionNestedInput
+    Task?: TaskUpdateManyWithoutActionNestedInput
   }
 
   export type ActionUncheckedUpdateWithoutZapInput = {
     id?: StringFieldUpdateOperationsInput | string
     ActionName?: StringFieldUpdateOperationsInput | string
+    sortingOrder?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    Task?: TaskUncheckedUpdateManyWithoutActionNestedInput
   }
 
   export type ActionUncheckedUpdateManyWithoutZapInput = {
     id?: StringFieldUpdateOperationsInput | string
     ActionName?: StringFieldUpdateOperationsInput | string
+    sortingOrder?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type zapRunUpdateWithoutZapInput = {
@@ -13705,61 +14547,111 @@ export namespace Prisma {
   export type TriggerCreateManyTypeInput = {
     id?: string
     zapId: string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TriggerUpdateWithoutTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
     zap?: ZapUpdateOneRequiredWithoutTriggerNestedInput
   }
 
   export type TriggerUncheckedUpdateWithoutTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
     zapId?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TriggerUncheckedUpdateManyWithoutTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
     zapId?: StringFieldUpdateOperationsInput | string
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+  }
+
+  export type TaskCreateManyActionInput = {
+    id?: string
+    runId: string
+    status: string
+    error?: string | null
+  }
+
+  export type TaskUpdateWithoutActionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    zapRun?: zapRunUpdateOneRequiredWithoutTaskNestedInput
+  }
+
+  export type TaskUncheckedUpdateWithoutActionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    runId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type TaskUncheckedUpdateManyWithoutActionInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    runId?: StringFieldUpdateOperationsInput | string
+    status?: StringFieldUpdateOperationsInput | string
+    error?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type ActionCreateManyTypeInput = {
     id?: string
     ZapId: string
+    sortingOrder?: number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type ActionUpdateWithoutTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
-    zap?: ZapUpdateOneRequiredWithoutActionNestedInput
+    sortingOrder?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    zap?: ZapUpdateOneRequiredWithoutActionsNestedInput
+    Task?: TaskUpdateManyWithoutActionNestedInput
   }
 
   export type ActionUncheckedUpdateWithoutTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
     ZapId?: StringFieldUpdateOperationsInput | string
+    sortingOrder?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
+    Task?: TaskUncheckedUpdateManyWithoutActionNestedInput
   }
 
   export type ActionUncheckedUpdateManyWithoutTypeInput = {
     id?: StringFieldUpdateOperationsInput | string
     ZapId?: StringFieldUpdateOperationsInput | string
+    sortingOrder?: IntFieldUpdateOperationsInput | number
+    metadata?: NullableJsonNullValueInput | InputJsonValue
   }
 
   export type TaskCreateManyZapRunInput = {
     id?: string
+    actionId: string
     status: string
+    error?: string | null
   }
 
   export type TaskUpdateWithoutZapRunInput = {
     id?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    error?: NullableStringFieldUpdateOperationsInput | string | null
+    action?: ActionUpdateOneRequiredWithoutTaskNestedInput
   }
 
   export type TaskUncheckedUpdateWithoutZapRunInput = {
     id?: StringFieldUpdateOperationsInput | string
+    actionId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    error?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type TaskUncheckedUpdateManyWithoutZapRunInput = {
     id?: StringFieldUpdateOperationsInput | string
+    actionId?: StringFieldUpdateOperationsInput | string
     status?: StringFieldUpdateOperationsInput | string
+    error?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

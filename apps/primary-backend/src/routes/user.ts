@@ -1,9 +1,10 @@
 import {Router} from "express";
-import { SigninSchema, SignupSchema } from "../types";
-import { Prisma } from "../lib/prisma";
-import { authMiddleware } from "../middleware";
-import { JWT_PASSWORD } from "../config";
+import { SigninSchema, SignupSchema } from "../types/index.js";
+import { prisma } from "../db/index.js";
+import { authMiddleware } from "../middleware.js";
+import { JWT_PASSWORD } from "../config.js";
 import jwt from "jsonwebtoken";
+import bcrypt from "bcryptjs";
 
 
 const router = Router();
@@ -18,7 +19,7 @@ router.post("/signup", async (req, res) => {
             message: "Incorect data",
         })
     }
-    const userExists = await Prisma.user.findFirst({
+    const userExists = await prisma.user.findFirst({
         where:{
             email: parsedData.data.username
         }
@@ -29,10 +30,11 @@ router.post("/signup", async (req, res) => {
             message: "User already exists"
         })
     }
-    await Prisma.user.create({
+    const hashedPassword = await bcrypt.hash(parsedData.data.password, 10);
+    await prisma.user.create({
         data:{
             email: parsedData.data.username,
-            password: parsedData.data.password,
+            password: hashedPassword,
             name: parsedData.data.name
         }
     })
@@ -50,15 +52,14 @@ router.post("/signin", async (req, res) => {
             message: "Incorrect data"
         })
     }
-     
-    const user =  await Prisma.user.findFirst({
+
+    const user =  await prisma.user.findFirst({
         where:{
-            email: parsedData.data.username,
-            password: parsedData.data.password
+            email: parsedData.data.username
         }
     })
-    
-    if(!user){
+
+    if(!user || !(await bcrypt.compare(parsedData.data.password, user.password))){
         return res.status(403).json({
             message: "Invalid credentials"
         })
@@ -73,12 +74,12 @@ router.post("/signin", async (req, res) => {
     res.json({
         token: token,
     })
-    
+
 })
 router.get("/", authMiddleware ,async (req, res) => {
     //@ts-ignore
     const id = req.id;
-    const user =await Prisma.user.findFirst({
+    const user =await prisma.user.findFirst({
         where:{
             id: id
         },
@@ -86,7 +87,7 @@ router.get("/", authMiddleware ,async (req, res) => {
             name: true,
             email: true,
         }
-    }) 
+    })
 
     return res.json({
         user

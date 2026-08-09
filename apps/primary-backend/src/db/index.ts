@@ -1,3 +1,1 @@
-//import { PrismaClient } from "@prisma/client/extension";
-//import { Prisma } from "../lib/prisma";
-
+export { prisma } from "@repo/db";

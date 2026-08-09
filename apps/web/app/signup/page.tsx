@@ -13,8 +13,9 @@ export default function() {
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
 
-    return <div> 
+    return <div>
         <Appbar />
         <div className="flex justify-center">
             <div className="flex pt-8 max-w-4xl">
@@ -42,14 +43,25 @@ export default function() {
                         setPassword(e.target.value)
                     }} label={"Password"} type="password" placeholder="Password"></Input>
 
+                    {error && <div className="text-red-600 text-sm pt-2">{error}</div>}
+
                     <div className="pt-4">
                         <Primarybutton onClick={async () => {
-                            const res = await axios.post(`${BACKEND_URL}/api/v1/user/signup`, {
-                                username: email,
-                                password,
-                                name
-                            });
-                            router.push("/login");
+                            setError("");
+                            try {
+                                await axios.post(`${BACKEND_URL}/api/v1/user/signup`, {
+                                    username: email,
+                                    password,
+                                    name
+                                });
+                                router.push("/login");
+                            } catch (e) {
+                                if (axios.isAxiosError(e) && e.response) {
+                                    setError(e.response.data?.message ?? "Signup failed");
+                                } else {
+                                    setError("Could not reach the server. Is primary-backend running?");
+                                }
+                            }
                         }} size="large">Get started free</Primarybutton>
                     </div>
                 </div>

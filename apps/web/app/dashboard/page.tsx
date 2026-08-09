@@ -6,21 +6,18 @@ import { useEffect, useState } from "react";
 import { BACKEND_URL, HOOKS_URL } from "../config";
 import { Linkbutton } from "../../components/buttons/Linkbutton";
 import { useRouter } from "next/navigation";
-import { stringify } from "querystring";
 
 interface Zap {
     "id": string,
-    "triggerId": string,
     "userId": number,
     "actions": {
         "id": string,
-        "zapId": string,
-        "actionId": string,
+        "ZapId": string,
+        "ActionName": string,
         "sortingOrder": number,
         "type": {
             "id": string,
             "name": string
-            "image": string
         }
     }[],
     "trigger": {
@@ -30,9 +27,8 @@ interface Zap {
         "type": {
             "id": string,
             "name": string,
-            "image": string
         }
-    }
+    } | null
 }
 
 function useZaps() {
@@ -60,7 +56,7 @@ function useZaps() {
 export default function() {
     const { loading, zaps } = useZaps();
     const router = useRouter();
-    
+
     return <div>
         <Appbar />
         <div className="flex justify-center pt-8">
@@ -79,6 +75,10 @@ export default function() {
     </div>
 }
 
+function Avatar({ label }: { label: string }) {
+    return <div className="w-[30px] h-[30px] rounded-full bg-slate-700 text-white flex items-center justify-center text-sm uppercase shrink-0">{label?.[0]}</div>
+}
+
 function ZapTable({ zaps }: {zaps: Zap[]}) {
     const router = useRouter();
 
@@ -86,15 +86,16 @@ function ZapTable({ zaps }: {zaps: Zap[]}) {
         <div className="flex">
                 <div className="flex-1">Name</div>
                 <div className="flex-1">ID</div>
-                <div className="flex-1">Created at</div>
                 <div className="flex-1">Webhook URL</div>
                 <div className="flex-1">Go</div>
         </div>
-        {zaps.map(z => <div className="flex border-b border-t py-4">
-            <div className="flex-1 flex"><img src={z.trigger.type.image} className="w-[30px] h-[30px]" /> {z.actions.map(x => <img src={x.type.image} className="w-[30px] h-[30px]" />)}</div>
+        {zaps.map(z => <div key={z.id} className="flex border-b border-t py-4 items-center">
+            <div className="flex-1 flex gap-1">
+                {z.trigger && <Avatar label={z.trigger.type.name} />}
+                {z.actions.map(x => <Avatar key={x.id} label={x.type.name} />)}
+            </div>
             <div className="flex-1">{z.id}</div>
-            <div className="flex-1">Nov 13, 2023</div>
-            <div className="flex-1">{`${HOOKS_URL}/hooks/catch/1/${z.id}`}</div>
+            <div className="flex-1 truncate">{`${HOOKS_URL}/hooks/catch/${z.userId}/${z.id}`}</div>
             <div className="flex-1"><Linkbutton onClick={() => {
                     router.push("/zap/" + z.id)
                 }}>Go</Linkbutton></div>

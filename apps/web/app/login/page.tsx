@@ -11,9 +11,10 @@ import { useRouter } from "next/navigation";
 export default function() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [error, setError] = useState("");
     const router = useRouter();
-    
-    return <div> 
+
+    return <div>
         <Appbar />
         <div className="flex justify-center">
             <div className="flex pt-8 max-w-4xl">
@@ -37,14 +38,26 @@ export default function() {
                     <Input onChange={e => {
                         setPassword(e.target.value);
                     }} label={"Password"} type="password" placeholder="Password"></Input>
+
+                    {error && <div className="text-red-600 text-sm pt-2">{error}</div>}
+
                     <div className="pt-4">
                         <Primarybutton onClick={async () => {
-                            const res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, {
-                                username: email,
-                                password,
-                            });
-                            localStorage.setItem("token", res.data.token);
-                            router.push("/dashboard");
+                            setError("");
+                            try {
+                                const res = await axios.post(`${BACKEND_URL}/api/v1/user/signin`, {
+                                    username: email,
+                                    password,
+                                });
+                                localStorage.setItem("token", res.data.token);
+                                router.push("/dashboard");
+                            } catch (e) {
+                                if (axios.isAxiosError(e) && e.response) {
+                                    setError(e.response.data?.message ?? "Login failed");
+                                } else {
+                                    setError("Could not reach the server. Is primary-backend running?");
+                                }
+                            }
                         }} size="large">Login</Primarybutton>
                     </div>
                 </div>

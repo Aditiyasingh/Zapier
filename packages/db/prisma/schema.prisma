@@ -5,72 +5,80 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  
 }
 
 model User {
-  id        Int   @id @default(autoincrement())
+  id        Int    @id @default(autoincrement())
   name      String
   email     String @unique
   password  String
+  zaps      Zap[]
 }
 
-model Zap{
-  id          String @id @default(uuid())
+model Zap {
+  id          String   @id @default(uuid())
+  userId      Int
+  user        User     @relation(fields: [userId], references: [id])
   trigger     Trigger?
-  Action      Action[]
+  actions     Action[]
   Runs        zapRun[]
 }
 
 model Trigger {
-  id      String @id @default(uuid())
-  triggerId   String 
-  zapId       String @unique
-  type    AvailableTrigger @relation(fields: [triggerId], references: [id])
-  zap     Zap @relation(fields: [zapId], references: [id])
+  id        String           @id @default(uuid())
+  triggerId String
+  zapId     String           @unique
+  metadata  Json?
+  type      AvailableTrigger @relation(fields: [triggerId], references: [id])
+  zap       Zap              @relation(fields: [zapId], references: [id])
 }
 
-model AvailableTrigger{
- id       String @id @default(uuid()) 
- name     String
- trigger  Trigger[]
+model AvailableTrigger {
+  id      String    @id @default(uuid())
+  name    String    @unique
+  trigger Trigger[]
 }
 
-model Action{
-  id String @id @default(uuid())
-  ZapId String 
-  ActionName String
-  type AvailableAction @relation(fields: [ActionName], references: [id])
-  zap Zap @relation(fields:[ZapId], references: [id])
-
+model Action {
+  id           String          @id @default(uuid())
+  ZapId        String
+  ActionName   String
+  sortingOrder Int             @default(0)
+  metadata     Json?
+  type         AvailableAction @relation(fields: [ActionName], references: [id])
+  zap          Zap             @relation(fields: [ZapId], references: [id])
+  Task         Task[]
 }
-model AvailableAction{
-  id String @id @default(uuid())
-  name String
+
+model AvailableAction {
+  id     String   @id @default(uuid())
+  name   String   @unique
   action Action[]
 }
 
-model zapRun{
-  id String @id @default(uuid())
-  zapId String
-  status String?
-  metadata Json?
-  Task Task[]
-  zap Zap @relation(fields: [zapId], references: [id])
+model zapRun {
+  id           String        @id @default(uuid())
+  zapId        String
+  status       String?       @default("pending")
+  metadata     Json?
+  Task         Task[]
+  zap          Zap           @relation(fields: [zapId], references: [id])
   zaprunoutbox zapRunoutbox?
 }
 
-model zapRunoutbox{
-  id String @id @default(uuid())
-  zapRunId String @unique
+model zapRunoutbox {
+  id       String  @id @default(uuid())
+  zapRunId String  @unique
   metadata Json?
-  zaprun zapRun@relation(fields: [zapRunId], references: [id])
+  zaprun   zapRun  @relation(fields: [zapRunId], references: [id])
 }
 
-
-model Task{
-  id String @id @default(uuid())
-  runId String
-  status String
-  zapRun zapRun @relation(fields: [runId], references: [id])
+model Task {
+  id       String  @id @default(uuid())
+  runId    String
+  actionId String
+  status   String
+  error    String?
+  zapRun   zapRun  @relation(fields: [runId], references: [id])
+  action   Action  @relation(fields: [actionId], references: [id])
 }

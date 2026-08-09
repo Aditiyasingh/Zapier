@@ -55,10 +55,10 @@ export default function() {
                 try{
 
                 const response = await axios.post(`${BACKEND_URL}/api/v1/zap`, {
-                    "availableTriggerId": selectedTrigger.id,
+                    "AvailableTriggerId": selectedTrigger.id,
                     "triggerMetadata": {},
-                    "actions": selectedActions.map(a => ({
-                        availableActionId: a.availableActionId,
+                    "action": selectedActions.map(a => ({
+                        AvailableActionId: a.availableActionId,
                         actionMetadata: a.metadata
                     }))
                 }, {
@@ -133,8 +133,8 @@ export default function() {
     </div>
 }
 
-function Modal({ index, onSelect, availableItems }: { index: number, 
-    onSelect: (props: null | { name: string; id: string; metadata: any; }) => void, availableItems: {id: string, name: string, image: string;}[] }) {
+function Modal({ index, onSelect, availableItems }: { index: number,
+    onSelect: (props: null | { name: string; id: string; metadata: any; }) => void, availableItems: {id: string, name: string;}[] }) {
     const [step, setStep] = useState(0);
     const [selectedAction, setSelectedAction] = useState<{
         id: string;
@@ -159,21 +159,21 @@ function Modal({ index, onSelect, availableItems }: { index: number,
                     </button>
                 </div>
                 <div className="p-4 md:p-5 space-y-4">
-                    {step === 1 && selectedAction?.id === "email" && <EmailSelector setMetadata={(metadata) => {
+                    {step === 1 && selectedAction?.name === "email" && <EmailSelector setMetadata={(metadata) => {
                         onSelect({
                             ...selectedAction,
                             metadata
                         })
                     }} />}
 
-                    {(step === 1 && selectedAction?.id === "send-sol") && <SolanaSelector setMetadata={(metadata) => {
+                    {(step === 1 && selectedAction?.name === "send-sol") && <SolanaSelector setMetadata={(metadata) => {
                         onSelect({
                             ...selectedAction,
                             metadata
                         })
                     }} />}
 
-                    {step === 0 && <div>{availableItems.map(({id, name, image}) => {
+                    {step === 0 && <div>{availableItems.map(({id, name}) => {
                             return <div onClick={() => {
                                 if (isTrigger) {
                                     onSelect({
@@ -188,10 +188,11 @@ function Modal({ index, onSelect, availableItems }: { index: number,
                                         name
                                     })
                                 }
-                            }} className="flex border p-4 cursor-pointer hover:bg-slate-100">
-                                <img src={image} width={30} className="rounded-full" /> <div className="flex flex-col justify-center"> {name} </div>
+                            }} className="flex items-center gap-3 border p-4 cursor-pointer hover:bg-slate-100">
+                                <div className="w-[30px] h-[30px] rounded-full bg-slate-700 text-white flex items-center justify-center text-sm uppercase">{name?.[0]}</div>
+                                <div className="flex flex-col justify-center"> {name} </div>
                             </div>
-                        })}</div>}                    
+                        })}</div>}
                 </div>
             </div>
         </div>
@@ -202,16 +203,19 @@ function Modal({ index, onSelect, availableItems }: { index: number,
 function EmailSelector({setMetadata}: {
     setMetadata: (params: any) => void;
 }) {
-    const [email, setEmail] = useState("");
+    const [to, setTo] = useState("");
+    const [subject, setSubject] = useState("");
     const [body, setBody] = useState("");
 
     return <div>
-        <Input label={"To"} type={"text"} placeholder="To" onChange={(e) => setEmail(e.target.value)}></Input>
-        <Input label={"Body"} type={"text"} placeholder="Body" onChange={(e) => setBody(e.target.value)}></Input>
+        <Input label={"To (leave blank to email yourself)"} type={"text"} placeholder="someone@example.com" onChange={(e) => setTo(e.target.value)}></Input>
+        <Input label={"Subject"} type={"text"} placeholder="Subject" onChange={(e) => setSubject(e.target.value)}></Input>
+        <Input label={"Body"} type={"text"} placeholder="Use {{field}} to insert data from the trigger" onChange={(e) => setBody(e.target.value)}></Input>
         <div className="pt-2">
             <Primarybutton onClick={() => {
                 setMetadata({
-                    email,
+                    to,
+                    subject,
                     body
                 })
             }}>Submit</Primarybutton>
