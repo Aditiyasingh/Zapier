@@ -1,159 +1,163 @@
-# Turborepo starter
+# Zapier Clone
 
-This Turborepo starter is maintained by the Turborepo core team.
+A minimal Zapier-style automation platform built as a Turborepo monorepo. Users
+connect a **trigger** (currently: an incoming webhook) to one or more
+**actions** (currently: sending an email) through a small web UI. Firing the
+trigger runs the Zap's actions through an outbox → Kafka → worker pipeline.
 
-## Using this example
+## How it works
 
-Run the following command:
-
-```sh
-npx create-turbo@latest
+```
+apps/web (Next.js)  --REST-->  apps/primary-backend (auth, Zap CRUD)
+                                        |
+                                        v
+                                   packages/db (Postgres via Prisma)
+                                        ^
+                                        |
+external caller --POST--> apps/hooks --+  (writes a zapRun + outbox row,
+                                           in one transaction)
+                                        |
+                              apps/processor polls the outbox table
+                              every 3s and publishes each zapRunId
+                              to the Kafka topic "zap-event"
+                                        |
+                                        v
+                              apps/worker consumes the topic, loads the
+                              zapRun's Zap → ordered actions → owning User,
+                              and executes each action (records a Task
+                              row + zapRun.status per run)
 ```
 
-## What's inside?
+The outbox pattern decouples "record that the trigger fired" (a DB write)
+from "get it onto Kafka" (a separate, retryable process), so a Kafka hiccup
+never loses an incoming webhook.
 
-This Turborepo includes the following packages/apps:
+### Apps and packages
 
-### Apps and Packages
+| Path | What it is | Port |
+|---|---|---|
+| `apps/web` | Next.js frontend — signup/login, Zap builder, dashboard | 3002 |
+| `apps/primary-backend` | Express REST API — auth, Zap/trigger/action CRUD | 3000 |
+| `apps/hooks` | Webhook catcher — `POST /hooks/catch/:userId/:zapId` records the trigger | 3001 |
+| `apps/processor` | Outbox → Kafka relay (no HTTP server) | — |
+| `apps/worker` | Kafka consumer that runs each Zap's actions, sends real email via SMTP | — |
+| `packages/db` | Shared Prisma schema + client, published as `@repo/db` | — |
 
-- `docs`: a [Next.js](https://nextjs.org/) app
-- `web`: another [Next.js](https://nextjs.org/) app
-- `@repo/ui`: a stub React component library shared by both `web` and `docs` applications
-- `@repo/eslint-config`: `eslint` configurations (includes `eslint-config-next` and `eslint-config-prettier`)
-- `@repo/typescript-config`: `tsconfig.json`s used throughout the monorepo
+Only the **email** action is implemented. Any other action type is logged
+and skipped rather than crashing the run.
 
-Each package/app is 100% [TypeScript](https://www.typescriptlang.org/).
+## Prerequisites
 
-### Utilities
+- Node.js 18+
+- npm (workspaces)
+- Docker (for local Postgres + Kafka)
 
-This Turborepo has some additional tools already setup for you:
+## Setup
 
-- [TypeScript](https://www.typescriptlang.org/) for static type checking
-- [ESLint](https://eslint.org/) for code linting
-- [Prettier](https://prettier.io) for code formatting
+```bash
+npm install
 
-### Build
+# start local Postgres + Kafka
+docker compose up -d
 
-To build all apps and packages, run the following command:
+# copy env templates and fill in real values (see table below)
+cp packages/db/.env.example packages/db/.env
+cp apps/primary-backend/.env.example apps/primary-backend/.env
+cp apps/worker/.env.example apps/worker/.env
+cp apps/processor/.env.example apps/processor/.env
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
+# create tables + seed the "webhook" trigger and "email" action
+cd packages/db
+npx prisma migrate deploy
+npx prisma db seed
+cd ../..
 
-```sh
-cd my-turborepo
-turbo build
+# run everything (web, primary-backend, hooks, processor, worker) in parallel
+npm run dev
 ```
 
-Without global `turbo`, use your package manager:
+Then open **http://localhost:3002**.
 
-```sh
-cd my-turborepo
-npx turbo build
-npm dlx turbo build
-npm exec turbo build
+### Environment variables
+
+`packages/db/.env`
+
+| Var | Meaning |
+|---|---|
+| `DATABASE_URL` | Postgres connection string. Loaded centrally by `@repo/db` regardless of which app runs it. |
+
+`apps/primary-backend/.env`
+
+| Var | Meaning |
+|---|---|
+| `JWT_PASSWORD` | Secret used to sign/verify auth tokens. Use a long random string. |
+
+`apps/worker/.env`
+
+| Var | Meaning |
+|---|---|
+| `KAFKA_BROKERS` | Comma-separated Kafka broker list, e.g. `localhost:9092`. |
+| `SMTP_HOST` / `SMTP_PORT` / `SMTP_SECURE` | Your mail server. Gmail: `smtp.gmail.com`, `587`, `false`. |
+| `SMTP_USER` / `SMTP_PASS` | SMTP login. For Gmail, generate an [App Password](https://myaccount.google.com/apppasswords) — not your real password. |
+| `SMTP_FROM` | The "From" header on sent emails. |
+
+`apps/processor/.env`
+
+| Var | Meaning |
+|---|---|
+| `KAFKA_BROKERS` | Same as the worker's. |
+
+## Using it
+
+1. Sign up / log in at `http://localhost:3002`.
+2. Click **Create**, pick the **webhook** trigger, add an **email** action.
+   Fill in **To** (leave blank to email yourself), **Subject**, and **Body**
+   — both support `{{field}}` placeholders that get filled in from whatever
+   JSON the webhook receives.
+3. Click **Publish**. Your dashboard now shows a **Webhook URL** for that Zap.
+4. Fire it from anywhere:
+   ```bash
+   curl -X POST http://localhost:3001/hooks/catch/<userId>/<zapId> \
+     -H "Content-Type: application/json" \
+     -d '{"name": "Bob"}'
+   ```
+5. Within a few seconds the worker picks it up off Kafka and sends the email.
+
+## API reference (primary-backend)
+
+| Method & path | Auth | Body |
+|---|---|---|
+| `POST /api/v1/user/signup` | — | `{ username, password, name }` |
+| `POST /api/v1/user/signin` | — | `{ username, password }` → `{ token }` |
+| `GET /api/v1/user` | Bearer token in `Authorization` header | — |
+| `GET /api/v1/trigger/available` | — | — |
+| `GET /api/v1/action/available` | — | — |
+| `POST /api/v1/zap` | ✓ | `{ AvailableTriggerId, triggerMetadata, action: [{ AvailableActionId, actionMetadata }] }` |
+| `GET /api/v1/zap` | ✓ | — |
+| `GET /api/v1/zap/zapId?zapId=...` | ✓ | — |
+
+## Common commands
+
+```bash
+npm run dev          # turbo: run every app's dev script in parallel
+npm run build         # turbo: build every app
+npm run check-types   # turbo: tsc --noEmit across the whole repo
+npm run lint           # turbo: eslint across the whole repo
+
+# packages/db
+npx prisma studio                 # browse the DB
+npx prisma migrate dev --name x   # create + apply a migration
+npx prisma db seed                # re-run the seed script
 ```
 
-You can build a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
+## Tech stack
 
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
+Turborepo · TypeScript · Next.js · Express · Prisma + PostgreSQL · KafkaJS ·
+Nodemailer · bcryptjs · JWT · Zod · Docker Compose
 
-```sh
-turbo build --filter=docs
-```
+## Notes
 
-Without global `turbo`:
-
-```sh
-npx turbo build --filter=docs
-npm exec turbo build --filter=docs
-npm exec turbo build --filter=docs
-```
-
-### Develop
-
-To develop all apps and packages, run the following command:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo dev
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo dev
-npm exec turbo dev
-npm exec turbo dev
-```
-
-You can develop a specific package by using a [filter](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters):
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo dev --filter=web
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo dev --filter=web
-npm exec turbo dev --filter=web
-npm exec turbo dev --filter=web
-```
-
-### Remote Caching
-
-> [!TIP]
-> Vercel Remote Cache is free for all plans. Get started today at [vercel.com](https://vercel.com/signup?utm_source=remote-cache-sdk&utm_campaign=free_remote_cache).
-
-Turborepo can use a technique known as [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching) to share cache artifacts across machines, enabling you to share build caches with your team and CI/CD pipelines.
-
-By default, Turborepo will cache locally. To enable Remote Caching you will need an account with Vercel. If you don't have an account you can [create one](https://vercel.com/signup?utm_source=turborepo-examples), then enter the following commands:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed (recommended):
-
-```sh
-cd my-turborepo
-turbo login
-```
-
-Without global `turbo`, use your package manager:
-
-```sh
-cd my-turborepo
-npx turbo login
-npm exec turbo login
-npm exec turbo login
-```
-
-This will authenticate the Turborepo CLI with your [Vercel account](https://vercel.com/docs/concepts/personal-accounts/overview).
-
-Next, you can link your Turborepo to your Remote Cache by running the following command from the root of your Turborepo:
-
-With [global `turbo`](https://turborepo.dev/docs/getting-started/installation#global-installation) installed:
-
-```sh
-turbo link
-```
-
-Without global `turbo`:
-
-```sh
-npx turbo link
-npm exec turbo link
-npm exec turbo link
-```
-
-## Useful Links
-
-Learn more about the power of Turborepo:
-
-- [Tasks](https://turborepo.dev/docs/crafting-your-repository/running-tasks)
-- [Caching](https://turborepo.dev/docs/crafting-your-repository/caching)
-- [Remote Caching](https://turborepo.dev/docs/core-concepts/remote-caching)
-- [Filtering](https://turborepo.dev/docs/crafting-your-repository/running-tasks#using-filters)
-- [Configuration Options](https://turborepo.dev/docs/reference/configuration)
-- [CLI Usage](https://turborepo.dev/docs/reference/command-line-reference)
+- The Postgres password in `docker-compose.yml` is a local-dev-only
+  placeholder — it's not reachable outside your machine and isn't meant to
+  be a real secret.
+- No `.env` files are committed; only `.env.example` templates are.
